@@ -1,0 +1,303 @@
+// The prefix to use on all css classes from ant.
+@ant-prefix: ant;
+
+// -------- 自定义参数覆盖 -----------
+@primary-color: #3b9b4d; // 全局主色
+@link-color: #3b9b4d; // 链接色
+@success-color: #3b9b4d; // 成功色
+@warning-color: #ffc232; // 警告色
+@error-color: #e36732; // 错误色
+@processing-color: #3b9b4d; // 进度条颜色
+@normal-color: #d9d9d9;
+
+@body-background: #ffffff;
+@component-background: #2b2f36; //组件背景色
+@text-color: #dce0f2; // 主文本色
+@text-color-secondary: #cfcfcf; // 次文本色
+@text-color-inverse: #161a1d;
+@icon-color-hover: #dce0f2;
+@text-color-dark: #161a1d;
+@text-selection-bg: #3b9b4d;
+@heading-color: #cfcfcf; // 标题色
+
+@font-variant-base: tabular-nums;
+@font-feature-settings-base: 'tnum';
+@font-size-base: 14px; // 主字号
+@item-active-bg: #2b5b35; //item选中背景色
+@item-hover-bg: #2b5b35; //item hover背景色
+@border-radius-base: 2px; // 组件/浮层圆角
+
+// LINK
+@link-color: #dce0f2;
+@link-hover-color: #ffffff;
+@link-active-color: #ffffff;
+
+// Border color
+@border-color-base: #161a1d; // 边框颜色
+@border-color-split: #161a1d; //分割颜色
+@border-color-inverse: #161a1d; //inverse 颜色
+
+// Outline
+@outline-width: 0;
+
+@background-color-base: #2b2f36; //默认背景色
+@background-color-light: #2b5b35; //高亮背景色
+
+// Disabled states
+@disabled-color: #737373; // 失效色
+@disabled-bg: #2b2b2c;
+@disabled-active-bg: #2b2b2c;
+@disabled-color-dark: #2b2b2c;
+
+// Shadow
+@box-shadow-base: 0 2px 10px 0 rgba(0, 0, 0, 0.4); // 浮层阴影
+
+@layout-header-background: #2a2d34; // 头部背景色
+@layout-body-background: #23262b; // 布局body背景色
+@layout-header-color: #dce0f2;
+@body-background: #161a1d; //body 背景色
+@select-item-selected-bg: #2b5b35; //选择框item选中背景色
+@select-selection-item-bg: #2b5b35; //选择框选项选中背景色
+@cascader-item-selected-bg: #2b5b35; //级联选择item选中背景色
+@select-item-active-bg: #2b5b35; //选择框选项Active背景色
+@primary-2: #2b5b35; //树节点选中背景色
+@tree-node-selected-bg: #2b5b35; //树节点选中背景色
+@calendar-item-active-bg: #2b5b35; //日历选中背景色
+@calendar-full-bg: #2b2f36; //日历选中背景色
+@calendar-full-panel-bg: #2b2f36; //日历背景色
+@timeline-color: #3b3f48; //时间线线条背景色
+@tag-default-bg: #5a5d69; //标签背景色
+@skeleton-color: #5a5d69; //骨架屏颜色
+@collapse-header-bg: #2b2f36; //折叠面板头部背景色
+@checkbox-check-bg: #161a1d; //checkbox背景色
+// @tooltip-bg: #d8d8d8;     //文字提示框背景色
+@icon-color-hover: #ffffff;
+
+// vertical paddings
+@padding-lg: 16px; // containers
+@padding-md: 12px; // small containers and buttons
+@padding-sm: 10px; // Form controls and items
+@padding-xs: 8px; // small items
+@padding-xss: 4px; // more small
+
+// height rules
+@height-base: 30px;
+@height-lg: 36px;
+@height-sm: 22px;
+
+// // Table
+// @table-bg: #2b2f36; //表格背景色
+// @table-header-bg: #323640; //表头背景色
+// @table-body-sort-bg: #2b2f36; //排序背景色
+// @table-selected-row-bg: #2b5b35; //选中背景色
+// @table-expanded-row-bg: #2b2f36; //扩展背景色
+// @table-footer-bg: #2b2f36; //表尾背景色
+// @table-header-sort-active-bg: #2b5b35; //表头排序Active色
+// @table-header-filter-active-bg: #2b5b35; //表头排序Active色
+// @table-row-hover-bg: #2b5b35; //列hover色
+
+// // Alert
+// @alert-success-bg-color: rgba(46, 230, 107, 0.5);
+// @alert-success-border-color: rgba(46, 230, 107, 0.5);
+// @alert-success-icon-color: #fff;
+// @alert-info-border-color: rgba(51, 125, 255, 0.5);
+// @alert-info-bg-color: rgba(51, 125, 255, 0.5);
+// @alert-info-icon-color: #fff;
+// @alert-warning-border-color: rgba(255, 194, 50, 0.5);
+// @alert-warning-bg-color: rgba(255, 194, 50, 0.5);
+// @alert-warning-icon-color: #fff;
+// @alert-error-border-color: rgba(227, 103, 50, 0.5);
+// @alert-error-bg-color: rgba(227, 103, 50, 0.5);
+// @alert-error-icon-color: #fff;
+// // Tag
+// @tag-default-color: #fff;
+
+// // Disabled states
+// @disabled-color: #949393;
+// @disabled-bg: #2b2b2c;
+
+// // Radio
+// @radio-dot-size: 6px;
+// @radio-solid-checked-color: #7b808e;
+// @radio-dot-color: #ffffff;
+// @radio-button-bg: #161a1d;
+// @radio-button-checked-bg: #7b808e;
+// @radio-button-color: #7b808e;
+// @radio-button-hover-color: #161a1d;
+// @radio-button-active-color: #161a1d;
+
+// // Input
+// @input-icon-color: #b3b9cc;
+// @input-border-color: #2b2f36;
+// @input-hover-border-color: #3b9b4d;
+// @input-placeholder-color: #7b808e;
+// @input-icon-hover-color: #b3b9cc;
+// @input-number-handler-hover-bg: #3b9b4d;
+// @input-padding-horizontal: 10px;
+// @input-number-hover-border-color: #3b9b4d;
+// @input-number-handler-active-bg: #23262b;
+// @input-number-handler-hover-bg: #23262b;
+// @input-number-handler-bg: #2b2f36;
+// @input-number-handler-border-color: #2b2f36;
+// @input-addon-bg: #b3b9cc;
+// @input-hover-border-color: #3b9b4d;
+
+// // Select
+// @select-border-color: #2b2f36;
+// @select-item-selected-font-weight: normal;
+// @select-item-selected-bg: #2b5b35;
+// @select-dropdown-height: 36px;
+
+// // Button
+// @btn-default-bg: #5a5d69; //button默认背景色
+// @btn-default-border: #5a5d69; //button默认边框色
+// @btn-disable-bg: #5a5d69;
+// @btn-disable-border: #5a5d69;
+// @btn-disable-color: #ffffff;
+// @btn-padding-horizontal-base: 10px;
+
+// // Modal
+// @modal-header-padding-vertical: 14px;
+// @modal-header-padding-horizontal: 0;
+// @modal-body-padding: 20px 20px 0;
+// @modal-footer-border-style: none;
+// @modal-footer-padding-vertical: 20px;
+// @modal-footer-padding-horizontal: 20px;
+// @modal-heading-color: #ffffff;
+// @modal-close-color: #b3b9cc;
+// @modal-header-bg: #23262b;
+// @modal-content-bg: #23262b;
+// @modal-header-close-size: 50px;
+// @modal-header-border-color-split: #3b3f48;
+// @modal-header-title-font-size: 16px;
+
+// // Switch
+// @switch-height: 14px;
+// @switch-sm-height: 14px;
+// @switch-min-width: 24px;
+// @switch-sm-min-width: 24px;
+// @switch-disabled-opacity: 0.5;
+// @switch-bg: #7b808e;
+
+// // TimePicker
+// @picker-bg: #2b2f36;
+// @picker-basic-cell-hover-color: #2b5b35;
+// @picker-basic-cell-active-with-range-color: rgba(71, 190, 104, 0.1);
+// @picker-basic-cell-hover-with-range-color: rgba(71, 190, 104, 0.1);
+// @picker-basic-cell-disabled-bg: #2b2f36;
+// @picker-border-color: #3b3f48;
+// @picker-date-hover-range-border-color: rgba(71, 190, 104, 0.1);
+// @picker-date-hover-range-color: #3b9b4d;
+// @picker-time-panel-column-width: 70px;
+// @picker-time-panel-column-height: 242px;
+// @picker-time-panel-cell-height: 30px;
+// @picker-panel-cell-height: 30px;
+// @picker-panel-cell-width: 32px;
+// @picker-text-height: 40px;
+// @picker-panel-without-time-cell-height: 66px;
+
+// // Cascader
+// @cascader-item-selected-bg: #2b5b35;
+// @cascader-dropdown-vertical-padding: 7px;
+// @cascader-dropdown-line-height: 22px;
+
+// // Tabs
+// @tabs-card-head-background: #161a1d;
+// @tabs-card-height: 24px;
+// @tabs-card-active-color: #7b808e;
+// @tabs-card-horizontal-padding: 2px 10px;
+// @tabs-title-font-size: 12px;
+// @tabs-highlight-color: #161a1d;
+// @tabs-hover-color: #ffffff;
+// @tabs-active-color: #ffffff;
+// @tabs-card-gutter: 0;
+// @tabs-card-tab-active-border-top: 0;
+
+// Menu
+@menu-item-color: #cfcfcf;
+@menu-inline-submenu-bg: #1e2228;
+@menu-item-active-bg: #2b5b35;
+@menu-item-group-title-color: #dce0f2;
+@menu-highlight-color: #ffffff; //menu高亮颜色@
+
+// //Dropdown
+// @dropdown-vertical-padding: 7px;
+
+// // Layout
+// @layout-body-background: #161a1d;
+// @layout-header-background: #2a2d34;
+// @layout-header-height: 48px;
+// @layout-header-padding: 0 15px;
+// @layout-header-color: #ffffff;
+// @layout-footer-padding: 0 15px;
+// @layout-footer-background: #23262b;
+// @layout-sider-background: #1e2228;
+// @layout-trigger-height: 48px;
+// @layout-trigger-background: #161a1d;
+// @layout-trigger-color: #fff;
+// @layout-zero-trigger-width: 30px;
+// @layout-zero-trigger-height: 30px;
+
+// // Avatar
+// @avatar-size-base: 30px;
+// @avatar-font-size-base: 18px;
+// @avatar-bg: #5a5d69;
+// @avatar-color: #2b2f36;
+
+// // Badge
+// @badge-height: 16px;
+// @badge-font-size: 12px;
+// @badge-text-color: #ffffff;
+// @badge-color: #e36732;
+
+// // Tooltip
+// @tooltip-max-width: 360px;
+// @tooltip-color: #cfcfcf;
+// @tooltip-bg: #2b2f36;
+// @tooltip-arrow-width: 8px;
+
+// // Popover
+// @popover-bg: #2b2f36;
+// @popover-color: #dce0f2;
+// @popover-padding-horizontal: 15px;
+// @popover-min-height: 30px;
+
+// // Message
+// @message-notice-content-padding: 10px 15px;
+// @message-notice-content-bg: #2b2f36;
+
+// // Spin
+// @spin-dot-size-sm: 30px;
+// @spin-dot-size: 35px;
+// @spin-dot-size-lg: 50px;
+
+// // Tag
+// @tag-default-bg: #3b3f48;
+// @tag-default-color: #dce0f2;
+// @tag-font-size: 14px;
+// @tag-line-height: 22px;
+
+// // Progress
+// @progress-default-color: #3b9b4d;
+// @progress-remaining-color: #161a1d;
+// @progress-info-text-color: #dce0f2;
+// @progress-radius: 100px;
+// @progress-steps-item-bg: #f3f3f3;
+// @progress-text-font-size: 14px;
+// @progress-text-color: #dce0f2; // This is for circle text color, should be renamed better
+// @progress-circle-text-font-size: 14px;
+
+// // Slider
+// @slider-margin: 10px 6px 10px;
+// @slider-rail-background-color: #5a5d69;
+// @slider-rail-background-color-hover: #5a5d69;
+// @slider-track-background-color: #5a5d69;
+// @slider-track-background-color-hover: #5a5d69;
+// @slider-handle-border-width: 1px;
+// @slider-handle-background-color: #d8d8d8;
+// @slider-handle-color: #5a5d69;
+// @slider-handle-color-hover: #5a5d69;
+// @slider-handle-color-focus: #5a5d69;
+// @slider-handle-color-focus-shadow: transparent;
+// @slider-dot-border-color-active: #d8d8d8;
+// @slider-disabled-background-color: #5a5d69;

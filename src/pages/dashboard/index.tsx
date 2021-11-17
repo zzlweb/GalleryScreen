@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-
 class Dashboard extends Component {
   render() {
-    return <div>123</div>;
+    return <div>智慧城市</div>;
   }
 }
 

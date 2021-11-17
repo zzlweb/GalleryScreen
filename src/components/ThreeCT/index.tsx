@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import * as THREE from 'three/build/three';
 import './index.less';
-import Stats from 'three/examples/jsm/libs/stats.module';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
@@ -9,7 +8,7 @@ import { RoughnessMipmapper } from 'three/examples/jsm/utils/RoughnessMipmapper'
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 export default class Three extends Component {
   initThree = () => {
-    let container, stats, controls, floor;
+    let container, controls, floor;
     let camera, scene, renderer;
     let width, height;
     // 坐标系辅助
@@ -140,9 +139,9 @@ export default class Three extends Component {
     let INITIAL_MAP = [];
 
     // 天空颜色
-    let sky_color = 0xf1f1f1;
+    let sky_color = 0x000000;
     // 地面颜色
-    let floor_color = 0xe8e8e8;
+    let floor_color = 0x000000;
 
     // 相机辅助
     let cameraHelper;
@@ -179,8 +178,6 @@ export default class Three extends Component {
       let t = t1 - t0; // 时间差
       t0 = t1; //把本次时间赋值给上次时间
       // TWEEN.update();
-      //更新性能插件
-      stats.update();
       animateModel();
       renderer.render(scene, camera);
       requestAnimationFrame(animation);
@@ -191,14 +188,6 @@ export default class Three extends Component {
       container = document.getElementById('WebGL-Five');
       width = container.offsetWidth;
       height = container.offsetHeight;
-
-      //性能插件
-      stats = new Stats();
-      stats.domElement.style.position = 'absolute';
-      stats.domElement.style.left = '0px'; // (0,0)px,左上角
-      stats.domElement.style.top = '0px';
-      stats.domElement.style.ZIndex = '1';
-      container.appendChild(stats.domElement);
 
       renderer = new THREE.WebGLRenderer({
         antialias: true,

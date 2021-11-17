@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1920px" height="1080px" viewBox="0 0 1920 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>bg-new@1x</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#171717" offset="0%"></stop>
+            <stop stop-color="#1B1B1B" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="350" cy="350" r="350"></circle>
+        <linearGradient x1="27.2948073%" y1="49.2840562%" x2="21.7125296%" y2="50.7616995%" id="linearGradient-4">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#E1F1FF" stop-opacity="0.06" offset="25.8131435%"></stop>
+            <stop stop-color="#CDE7FF" stop-opacity="0.13432344" offset="55.9540151%"></stop>
+            <stop stop-color="#D4EBFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="34.9670055%" y1="49.6707839%" x2="18.9090718%" y2="50.5339879%" id="linearGradient-5">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#ECF6FF" stop-opacity="0.0747200606" offset="69.204024%"></stop>
+            <stop stop-color="#D4EBFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="94.1878474%" y1="50.0908334%" x2="11.2931087%" y2="50.1047861%" id="linearGradient-6">
+            <stop stop-color="#D4EBFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#ECF6FF" stop-opacity="0.0747200606" offset="56.7330373%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="99.2680288%" y1="50%" x2="0.476498797%" y2="50%" id="linearGradient-7">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.095795318" offset="14.8793733%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.505729622" offset="23.1916949%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="48.8691123%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.379167463" offset="66.3666687%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.0763875968" offset="84.0807003%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="bg-new" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#0B0C0D" x="0" y="0" width="1920" height="1080"></rect>
+        <rect id="矩形" fill="url(#linearGradient-1)" x="0" y="0" width="1920" height="1080"></rect>
+        <g id="编组" transform="translate(610.000000, 206.000000)">
+            <mask id="mask-3" fill="white">
+                <use xlink:href="#path-2"></use>
+            </mask>
+            <use id="蒙版" fill-opacity="0" fill="#F2F2F2" xlink:href="#path-2"></use>
+            <g opacity="0.400000006" mask="url(#mask-3)" stroke="#979797" stroke-dasharray="1,20">
+                <g transform="translate(-34.000000, -110.000000)">
+                    <line x1="0.5" y1="0" x2="0.5" y2="918" id="路径-15"></line>
+                    <line x1="20.5" y1="0" x2="20.5" y2="918" id="路径-15备份"></line>
+                    <line x1="40.5" y1="0" x2="40.5" y2="918" id="路径-15备份-2"></line>
+                    <line x1="60.5" y1="0" x2="60.5" y2="918" id="路径-15备份-3"></line>
+                    <line x1="80.5" y1="0" x2="80.5" y2="918" id="路径-15备份-4"></line>
+                    <line x1="100.5" y1="0" x2="100.5" y2="918" id="路径-15备份-5"></line>
+                    <line x1="120.5" y1="0" x2="120.5" y2="918" id="路径-15备份-6"></line>
+                    <line x1="140.5" y1="0" x2="140.5" y2="918" id="路径-15备份-7"></line>
+                    <line x1="160.5" y1="0" x2="160.5" y2="918" id="路径-15备份-8"></line>
+                    <line x1="180.5" y1="0" x2="180.5" y2="918" id="路径-15备份-9"></line>
+                    <line x1="200.5" y1="0" x2="200.5" y2="918" id="路径-15备份-10"></line>
+                    <line x1="220.5" y1="0" x2="220.5" y2="918" id="路径-15备份-11"></line>
+                    <line x1="240.5" y1="0" x2="240.5" y2="918" id="路径-15备份-12"></line>
+                    <line x1="260.5" y1="0" x2="260.5" y2="918" id="路径-15备份-13"></line>
+                    <line x1="280.5" y1="0" x2="280.5" y2="918" id="路径-15备份-14"></line>
+                    <line x1="300.5" y1="0" x2="300.5" y2="918" id="路径-15备份-15"></line>
+                    <line x1="320.5" y1="0" x2="320.5" y2="918" id="路径-15备份-16"></line>
+                    <line x1="340.5" y1="0" x2="340.5" y2="918" id="路径-15备份-17"></line>
+                    <line x1="360.5" y1="0" x2="360.5" y2="918" id="路径-15备份-18"></line>
+                    <line x1="380.5" y1="0" x2="380.5" y2="918" id="路径-15备份-19"></line>
+                    <line x1="400.5" y1="0" x2="400.5" y2="918" id="路径-15备份-20"></line>
+                    <line x1="420.5" y1="0" x2="420.5" y2="918" id="路径-15备份-21"></line>
+                    <line x1="440.5" y1="0" x2="440.5" y2="918" id="路径-15备份-22"></line>
+                    <line x1="460.5" y1="0" x2="460.5" y2="918" id="路径-15备份-23"></line>
+                    <line x1="480.5" y1="0" x2="480.5" y2="918" id="路径-15备份-24"></line>
+                    <line x1="500.5" y1="0" x2="500.5" y2="918" id="路径-15备份-25"></line>
+                    <line x1="520.5" y1="0" x2="520.5" y2="918" id="路径-15备份-26"></line>
+                    <line x1="541.5" y1="0" x2="541.5" y2="918" id="路径-15备份-27"></line>
+                    <line x1="561.5" y1="0" x2="561.5" y2="918" id="路径-15备份-28"></line>
+                    <line x1="581.5" y1="0" x2="581.5" y2="918" id="路径-15备份-29"></line>
+                    <line x1="601.5" y1="0" x2="601.5" y2="918" id="路径-15备份-30"></line>
+                    <line x1="621.5" y1="0" x2="621.5" y2="918" id="路径-15备份-31"></line>
+                    <line x1="641.5" y1="0" x2="641.5" y2="918" id="路径-15备份-32"></line>
+                    <line x1="661.5" y1="0" x2="661.5" y2="918" id="路径-15备份-33"></line>
+                    <line x1="681.5" y1="0" x2="681.5" y2="918" id="路径-15备份-34"></line>
+                    <line x1="701.5" y1="0" x2="701.5" y2="918" id="路径-15备份-35"></line>
+                    <line x1="721.5" y1="0" x2="721.5" y2="918" id="路径-15备份-36"></line>
+                    <line x1="741.5" y1="0" x2="741.5" y2="918" id="路径-15备份-37"></line>
+                </g>
+            </g>
+        </g>
+        <g id="编组-15">
+            <polygon id="面3" fill-opacity="0.6" fill="url(#linearGradient-4)" points="0 0 0 26 501 26 632.5 90.5 1340 90.5 1467.5 26 1920 26 1920 0"></polygon>
+            <polygon id="面1" fill="url(#linearGradient-5)" points="7.86037901e-13 0 0 12 428 12 560 77.5 1340 73.5 1467.5 14 1920 14 1920 0"></polygon>
+            <polygon id="面2" fill="url(#linearGradient-6)" points="2.13162821e-13 39 449.5 39 494 60 947 60 947 64 471 64 427 43 0 43"></polygon>
+        </g>
+        <g id="编组-15" transform="translate(960.000000, 45.250000) scale(-1, 1) translate(-960.000000, -45.250000) ">
+            <polygon id="面3" fill-opacity="0.6" fill="url(#linearGradient-4)" points="0 0 0 26 501 26 632.5 90.5 1340 90.5 1467.5 26 1920 26 1920 0"></polygon>
+            <polygon id="面1" fill="url(#linearGradient-5)" points="7.86037901e-13 0 0 12 428 12 560 77.5 1340 73.5 1467.5 14 1920 14 1920 0"></polygon>
+            <polygon id="面2" fill="url(#linearGradient-6)" points="2.13162821e-13 39 449.5 39 494 60 947 60 947 64 471 64 427 43 0 43"></polygon>
+        </g>
+        <polyline id="路径" stroke="url(#linearGradient-7)" points="0 25 500 25 634 91 1287 91 1419 25 1920 25"></polyline>
+    </g>
+</svg>
