@@ -60,7 +60,7 @@ export default class Three_3D extends Component {
     function threeStart() {
       init();
       render();
-      loadGLTF('/static/MR08.glb');
+      loadGLTF('/static/ct/MR08.glb');
       animation();
       animateView();
     }

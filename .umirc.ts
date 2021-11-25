@@ -9,6 +9,7 @@ export default defineConfig({
   dynamicImport: {
     loading: '@/Loading.tsx',
   },
+  mfsu: {},
   routes: [
     {
       exact: false,

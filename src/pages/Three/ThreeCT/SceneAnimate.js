@@ -176,7 +176,7 @@ class Scene3d extends D3Function {
 
     this.theModel;
     this.MODEL_PATH =
-      config.model != undefined ? config.model : '/static/MR08.glb';
+      config.model != undefined ? config.model : '/static/ct/MR08.glb';
     this.canvas =
       config.canvasDom != undefined
         ? config.canvasDom
@@ -269,7 +269,7 @@ class Scene3d extends D3Function {
       var material = new THREE.MeshPhongMaterial({
         color: 'gray',
         shininess: 10,
-        map: THREE.ImageUtils.loadTexture('/static/ddp.png'),
+        map: THREE.ImageUtils.loadTexture('/static/ct/ddp.png'),
       }); //材料
       var mt = new THREE.Mesh(DDP, material);
       mt.position.x = ddp[i][0];
