@@ -106,7 +106,7 @@ class ChartLayout extends Component {
               className="logo"
               src={require('../../../public/image/logo.svg')}
             />
-            可视化展示
+            {/* 可视化展示 */}
           </Link>
 
           <div className="fill-flex center-title" id="step-two">

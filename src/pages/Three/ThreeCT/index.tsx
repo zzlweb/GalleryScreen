@@ -3,7 +3,7 @@ import './index.less';
 import { debounce } from 'lodash';
 import drawChart from '../../services/drawChart.js';
 import { liquidHeliumDataObj } from './config';
-import { SceneAnima } from './SceneAnimate.js.js';
+import { SceneAnima } from './SceneAnimate.js';
 
 class MachineModel extends Component {
   constructor(props) {
