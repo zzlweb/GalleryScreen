@@ -14,16 +14,17 @@ class Dashboard extends Component {
 
   DrawModel = () => {
     const that = this;
-    let cityScene = new CITY({
+    this.cityScene = new CITY({
       model: '/static/city/shanghai.FBX',
       canvasDom: that.canvas,
     });
 
-    this.cityScene = cityScene;
-
     function modelAnimate() {
       window.requestAnimationFrame(modelAnimate);
-      cityScene.renderer.render(cityScene.scene, cityScene.camera);
+      that.cityScene.renderer.render(
+        that.cityScene.scene,
+        that.cityScene.camera,
+      );
     }
     modelAnimate();
   };
@@ -33,13 +34,13 @@ class Dashboard extends Component {
     const that = this;
     this.DrawModel();
     window.addEventListener('resize', () => {
-      that.cityScene.handleResize(that.cityScene.renderer);
+      that.cityScene && that.cityScene.handleResize(that.cityScene.renderer);
     });
   }
 
   // 卸载
   componentWillUnmount() {
-    window.removeEventListener('resize', null);
+    window.removeEventListener('resize', () => {});
   }
 
   render() {

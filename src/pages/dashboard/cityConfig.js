@@ -553,18 +553,20 @@ class CityConfig extends City {
   // 自适应
   handleResize(renderer) {
     const canvas = document.querySelector('.city-box');
-    this.size = {
-      width: canvas.offsetWidth,
-      height: canvas.offsetHeight,
-    };
+    if (canvas) {
+      this.size = {
+        width: canvas.offsetWidth,
+        height: canvas.offsetHeight,
+      };
 
-    // Update camera
-    this.camera.aspect = this.size.width / this.size.height;
-    this.camera.updateProjectionMatrix();
+      // Update camera
+      this.camera.aspect = this.size.width / this.size.height;
+      this.camera.updateProjectionMatrix();
 
-    // Update renderer
-    renderer.setSize(this.size.width, this.size.height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      // Update renderer
+      renderer.setSize(this.size.width, this.size.height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    }
   }
 
   animate = (dt) => {
