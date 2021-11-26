@@ -83,7 +83,6 @@ const fragmentShader = `
     }`;
 
 export default function (opts) {
-  console.log(opts);
   const {
     radius = 50,
     color = '#fff',

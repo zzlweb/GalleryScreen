@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './index.less';
 import { debounce } from 'lodash';
 import drawChart from '../../services/drawChart.js';
-import { liquidHeliumDataObj } from './config';
 import { SceneAnima } from './SceneAnimate.js';
 
 class MachineModel extends Component {
@@ -54,7 +53,7 @@ class MachineModel extends Component {
         screen: {
           title: 'DDP',
           color: 0xf2f2f2,
-          map: '/static/ddp.png',
+          map: '/static/ct/ddp.png',
           opacity: 1.0,
           old_opacity: 1.0,
           warning: 0,
@@ -144,7 +143,7 @@ class MachineModel extends Component {
       floor_color: 0x141414,
       view_tween_default: 40,
       view_speed: 0.2,
-      model: '/static/MR08.glb',
+      model: '/static/ct/MR08.glb',
       canvasDom: that.canvas,
     });
 
