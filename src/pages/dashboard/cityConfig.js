@@ -1,80 +1,9 @@
 import * as THREE from 'three';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import Radar from './radar.js';
-const base = `
-precision mediump float;
-
-float distanceTo(vec2 src, vec2 dst) {
-    float dx = src.x - dst.x;
-    float dy = src.y - dst.y;
-    float dv = dx * dx + dy * dy;
-    return sqrt(dv);
-}
-
-float lerp(float x, float y, float t) {
-    return (1.0 - t) * x + t * y;
-}
-
-#define PI 3.14159265359
-#define PI2 6.28318530718
-
-`;
-const surroundLineDate = {
-  // 顶点着色器
-  vertexShader: `
-    #define PI 3.14159265359
-
-    uniform mediump float uStartTime;
-    uniform mediump float time;
-    uniform mediump float uRange;
-    uniform mediump float uSpeed;
-
-    uniform vec3 uColor;
-    uniform vec3 uActive;
-    uniform vec3 uMin;
-    uniform vec3 uMax;
-
-    varying vec3 vColor;
-
-    float lerp(float x, float y, float t) {
-        return (1.0 - t) * x + t * y;
-    }
-    void main() {
-        if (uStartTime >= 0.99) {
-            float iTime = mod(time * uSpeed - uStartTime, 1.0);
-            float rangeY = lerp(uMin.y, uMax.y, iTime);
-            if (rangeY < position.y && rangeY > position.y - uRange) {
-                float index = 1.0 - sin((position.y - rangeY) / uRange * PI);
-                float r = lerp(uActive.r, uColor.r, index);
-                float g = lerp(uActive.g, uColor.g, index);
-                float b = lerp(uActive.b, uColor.b, index);
-
-                vColor = vec3(r, g, b);
-            } else {
-                vColor = uColor;
-            }
-        }
-        vec3 vPosition = vec3(position.x, position.y, position.z * uStartTime);
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(vPosition, 1.0);
-    }
-    `,
-  // 片元着色器
-  fragmentShader: `
-    ${base}
-    uniform float time;
-    uniform float uOpacity;
-    uniform float uStartTime;
-
-    varying vec3 vColor;
-
-    void main() {
-
-        gl_FragColor = vec4(vColor, uOpacity * uStartTime);
-    }
-    `,
-};
-
+import Radar from './utils/radar.js';
+import { surroundLine } from './utils/surroundLine.js';
+import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 const radarData = [
   {
     position: {
@@ -87,25 +16,20 @@ const radarData = [
     opacity: 0.5,
     speed: 2,
   },
-  {
-    position: {
-      x: -666,
-      y: 25,
-      z: 202,
-    },
-    radius: 150,
-    color: '#efad35',
-    opacity: 0.6,
-    speed: 1,
-  },
+  // {
+  //   position: {
+  //     x: -666,
+  //     y: 25,
+  //     z: 202,
+  //   },
+  //   radius: 150,
+  //   color: '#efad35',
+  //   opacity: 0.6,
+  //   speed: 1,
+  // },
 ];
 
 class City {
-  // 获取到包围的线条
-  surroundLineGeometry(object) {
-    return new THREE.EdgesGeometry(object.geometry);
-  }
-
   // 遍历模型
   forMaterial(materials, callback) {
     if (!callback || !materials) return false;
@@ -116,6 +40,53 @@ class City {
     } else {
       callback(materials);
     }
+  }
+
+  // 巡场
+  // oldP  相机原来的位置
+  // oldT  target原来的位置
+  // newP  相机新的位置
+  // newT  target新的位置
+  // time  巡航时间
+  // callBack  动画结束时的回调函数
+  animateCamera(oldP, oldT, newP, newT, time, callBack) {
+    return new Promise((resolve, reject) => {
+      var tween = new TWEEN.Tween({
+        x1: oldP.x, // 相机x
+        y1: oldP.y, // 相机y
+        z1: oldP.z, // 相机z
+        x2: oldT.x, // 控制点的中心点x
+        y2: oldT.y, // 控制点的中心点y
+        z2: oldT.z, // 控制点的中心点z
+      });
+      tween.to(
+        {
+          x1: newP.x,
+          y1: newP.y,
+          z1: newP.z,
+          x2: newT.x,
+          y2: newT.y,
+          z2: newT.z,
+        },
+        time,
+      );
+      tween.onUpdate(function (object) {
+        camera.position.x = object.x1;
+        camera.position.y = object.y1;
+        camera.position.z = object.z1;
+        controls.target.x = object.x2;
+        controls.target.y = object.y2;
+        controls.target.z = object.z2;
+        controls.update();
+      });
+      tween.onComplete(function () {
+        controls.enabled = true;
+        callBack && callBack();
+        resolve();
+      });
+      tween.easing(TWEEN.Easing.Cubic.InOut);
+      tween.start();
+    });
   }
 }
 
@@ -146,7 +117,9 @@ class CityConfig extends City {
     this.initModel();
     setTimeout(() => {
       this.isStart = true;
-      this.loadRadar();
+      if (this.isStart) {
+        this.loadRadar();
+      }
     }, 300);
   }
 
@@ -183,6 +156,8 @@ class CityConfig extends City {
     this.camera.position.set(1200, 550, -700);
     this.camera.lookAt(new THREE.Vector3(0, 0, 0));
     this.scene.add(this.camera);
+
+    console.log(this.camera);
 
     const helper = new THREE.AxesHelper(100);
     this.scene.add(helper);
@@ -229,7 +204,8 @@ class CityConfig extends City {
           // 建筑
           this.setCityMaterial(child);
           // 添加包围线条效
-          this.surroundLine(child);
+          const line = surroundLine(child, this.time, this.StartTime);
+          this.effectGroup.add(line);
         }
         if (floorArray.includes(child.name)) {
           this.setFloor(child);
@@ -286,14 +262,13 @@ class CityConfig extends City {
 
     const size = new THREE.Vector3(max.x - min.x, max.y - min.y, max.z - min.z);
     this.forMaterial(object.material, (material) => {
-      material.opacity = 0.98;
-      // material.transparent = true;
+      material.opacity = 1;
+      material.transparent = true;
       material.color.setStyle('#1B3045');
 
       material.onBeforeCompile = (shader) => {
-        shader.uniforms.time = this.time;
-        console.log(shader);
-        shader.uniforms.uStartTime = this.StartTime;
+        shader.uniforms.time = this.time.value;
+        shader.uniforms.uStartTime = this.StartTime.value;
 
         // 中心点
         shader.uniforms.uCenter = {
@@ -340,7 +315,7 @@ class CityConfig extends City {
         // 扩散中心点
         shader.uniforms.uFlow = {
           value: new THREE.Vector3(
-            1, // 0 1开关
+            0, // 0 1开关
             10, // 范围
             20, // 速度
           ),
@@ -477,79 +452,6 @@ class CityConfig extends City {
     });
   }
 
-  /**
-   * 获取包围线条效果
-   */
-  surroundLine(object) {
-    // 获取线条geometry
-    const geometry = this.surroundLineGeometry(object);
-    // 获取物体的世界坐标 旋转等
-    const worldPosition = new THREE.Vector3();
-    object.getWorldPosition(worldPosition);
-
-    // 传递给shader重要参数
-    const { max, min } = object.geometry.boundingBox;
-
-    const size = new THREE.Vector3(max.x - min.x, max.y - min.y, max.z - min.z);
-
-    // this.effectGroup.add();
-    const material = this.createSurroundLineMaterial({
-      max,
-      min,
-      size,
-    });
-
-    const line = new THREE.LineSegments(geometry, material);
-
-    line.name = 'surroundLine';
-
-    line.scale.copy(object.scale);
-    line.rotation.copy(object.rotation);
-    line.position.copy(worldPosition);
-
-    this.effectGroup.add(line);
-  }
-
-  /**
-   * 创建包围线条材质
-   */
-  createSurroundLineMaterial({ max, min, size }) {
-    if (this.surroundLineMaterial) return surroundLineMaterial;
-
-    this.surroundLineMaterial = new THREE.ShaderMaterial({
-      transparent: true,
-      uniforms: {
-        uColor: {
-          value: new THREE.Color('#4C8BF5'),
-        },
-        uActive: {
-          value: new THREE.Color('#fff'),
-        },
-        time: this.time,
-        uOpacity: {
-          value: 0.6,
-        },
-        uMax: {
-          value: max,
-        },
-        uMin: {
-          value: min,
-        },
-        uRange: {
-          value: 200,
-        },
-        uSpeed: {
-          value: 0.2,
-        },
-        uStartTime: this.StartTime,
-      },
-      vertexShader: surroundLineDate.vertexShader,
-      fragmentShader: surroundLineDate.fragmentShader,
-    });
-
-    return this.surroundLineMaterial;
-  }
-
   // 自适应
   handleResize(renderer) {
     const canvas = document.querySelector('.city-box');
@@ -575,7 +477,7 @@ class CityConfig extends City {
 
     // 启动
     if (this.isStart) {
-      this.StartTime.value += dt * 1.5;
+      this.StartTime.value += dt * 2;
       if (this.StartTime.value >= 1) {
         this.StartTime.value = 1;
         this.isStart = false;

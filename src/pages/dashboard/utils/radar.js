@@ -1,8 +1,9 @@
+// 雷达
 import * as THREE from 'three';
 
 const frag_basic = `
 precision mediump float;
- 
+
 float atan2(float y, float x){
   float t0, t1, t2, t3, t4;
   t3 = abs(x);
@@ -52,33 +53,33 @@ const vertexShader = `
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }`;
 const fragmentShader = `
-    ${frag_basic} 
+    ${frag_basic}
     void main() {
         float d_time = u_speed * time;
 
         float angle = atan2(v_position.x, v_position.y) + PI;
-        
+
         float angleT = mod(angle + d_time, PI2);
 
         float width = u_width;
-    
+
         float d_opacity = 0.0;
 
         // 当前位置离中心位置
         float length = distanceTo(vec2(0.0, 0.0), v_position);
-        
+
         float bw = 5.0;
         if (length < u_radius && length > u_radius - bw) {
             float o = (length - (u_radius - bw)) / bw;
-            d_opacity = sin(o * PI); 
+            d_opacity = sin(o * PI);
         }
 
         if (length < u_radius - bw / 1.1) {
             d_opacity = 1.0 - angleT / PI * (PI / width);
-        } 
+        }
 
         if (length > u_radius) { d_opacity = 0.0; }
- 
+
         gl_FragColor = vec4(u_color, d_opacity * u_opacity);
     }`;
 
