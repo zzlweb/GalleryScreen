@@ -3,7 +3,6 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Radar from './utils/radar.js';
 import { surroundLine } from './utils/surroundLine.js';
-import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 const radarData = [
   {
     position: {
@@ -16,17 +15,6 @@ const radarData = [
     opacity: 0.5,
     speed: 2,
   },
-  // {
-  //   position: {
-  //     x: -666,
-  //     y: 25,
-  //     z: 202,
-  //   },
-  //   radius: 150,
-  //   color: '#efad35',
-  //   opacity: 0.6,
-  //   speed: 1,
-  // },
 ];
 
 class City {
@@ -42,51 +30,30 @@ class City {
     }
   }
 
-  // 巡场
-  // oldP  相机原来的位置
-  // oldT  target原来的位置
-  // newP  相机新的位置
-  // newT  target新的位置
-  // time  巡航时间
-  // callBack  动画结束时的回调函数
-  animateCamera(oldP, oldT, newP, newT, time, callBack) {
-    return new Promise((resolve, reject) => {
-      var tween = new TWEEN.Tween({
-        x1: oldP.x, // 相机x
-        y1: oldP.y, // 相机y
-        z1: oldP.z, // 相机z
-        x2: oldT.x, // 控制点的中心点x
-        y2: oldT.y, // 控制点的中心点y
-        z2: oldT.z, // 控制点的中心点z
-      });
-      tween.to(
-        {
-          x1: newP.x,
-          y1: newP.y,
-          z1: newP.z,
-          x2: newT.x,
-          y2: newT.y,
-          z2: newT.z,
-        },
-        time,
-      );
-      tween.onUpdate(function (object) {
-        camera.position.x = object.x1;
-        camera.position.y = object.y1;
-        camera.position.z = object.z1;
-        controls.target.x = object.x2;
-        controls.target.y = object.y2;
-        controls.target.z = object.z2;
-        controls.update();
-      });
-      tween.onComplete(function () {
-        controls.enabled = true;
-        callBack && callBack();
-        resolve();
-      });
-      tween.easing(TWEEN.Easing.Cubic.InOut);
-      tween.start();
-    });
+  generateTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 256;
+
+    const context = canvas.getContext('2d');
+    const image = context.getImageData(0, 0, 256, 256);
+
+    let x = 0,
+      y = 0;
+
+    for (let i = 0, j = 0, l = image.data.length; i < l; i += 4, j++) {
+      x = j % 256;
+      y = x === 0 ? y + 1 : y;
+
+      image.data[i] = 255;
+      image.data[i + 1] = 255;
+      image.data[i + 2] = 255;
+      image.data[i + 3] = Math.floor(x ^ y);
+    }
+
+    context.putImageData(image, 0, 0);
+
+    return canvas;
   }
 }
 
@@ -156,9 +123,6 @@ class CityConfig extends City {
     this.camera.position.set(1200, 550, -700);
     this.camera.lookAt(new THREE.Vector3(0, 0, 0));
     this.scene.add(this.camera);
-
-    console.log(this.camera);
-
     const helper = new THREE.AxesHelper(100);
     this.scene.add(helper);
 
@@ -195,6 +159,8 @@ class CityConfig extends City {
     const cityArray = ['CITY_UNTRIANGULATED'];
     // 地板效果mesh
     const floorArray = ['LANDMASS'];
+    // 道路
+    const roadArray = ['ROADS'];
 
     this.loadFbx(this.model).then((cube) => {
       this.group.add(cube);
@@ -209,6 +175,10 @@ class CityConfig extends City {
         }
         if (floorArray.includes(child.name)) {
           this.setFloor(child);
+        }
+
+        if (roadArray.includes(child.name)) {
+          this.setRoads(child);
         }
       });
     });
@@ -244,6 +214,17 @@ class CityConfig extends City {
       const mesh = Radar(data);
       mesh.material.uniforms.time = this.time;
       this.effectGroup.add(mesh);
+    });
+  }
+
+  // 设置道路
+  setRoads(object) {
+    console.log(object);
+    const texture = new THREE.Texture(this.generateTexture());
+    texture.needsUpdate = true;
+    object.material = new THREE.MeshBasicMaterial({
+      map: texture,
+      transparent: true,
     });
   }
 
@@ -440,14 +421,14 @@ class CityConfig extends City {
       vec3 transformed = vec3(position.x, position.y, position.z * uStartTime);
               `;
 
-        shader.vertexShader = shader.vertexShader.replace(
-          'void main() {',
-          vertex,
-        );
-        shader.vertexShader = shader.vertexShader.replace(
-          '#include <begin_vertex>',
-          vertexPosition,
-        );
+        // shader.vertexShader = shader.vertexShader.replace(
+        //   'void main() {',
+        //   vertex,
+        // );
+        // shader.vertexShader = shader.vertexShader.replace(
+        //   '#include <begin_vertex>',
+        //   vertexPosition,
+        // );
       };
     });
   }
