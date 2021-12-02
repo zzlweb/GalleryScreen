@@ -410,10 +410,10 @@ class CityConfig extends City {
          * 对顶点着色器进行修改
          */
         const vertex = `
-      varying vec4 vPositionMatrix;
-      varying vec3 vPosition;
-      uniform float uStartTime;
-      void main() {
+              varying vec4 vPositionMatrix;
+              varying vec3 vPosition;
+              uniform float uStartTime;
+              void main() {
               vPositionMatrix = projectionMatrix * vec4(position, 1.0);
               vPosition = position;
               `;
