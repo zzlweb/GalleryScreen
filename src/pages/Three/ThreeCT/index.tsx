@@ -171,6 +171,8 @@ class MachineModel extends Component {
       clearTimeout(this.timeOuter);
     }
     window.addEventListener('resize', () => {});
+
+    this.sceneAnima = null;
   }
 
   handleResizeChange() {
