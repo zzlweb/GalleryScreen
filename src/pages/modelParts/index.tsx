@@ -23,7 +23,7 @@ export default class modelParts extends Component {
       1,
       10000,
     );
-    this.camera.position.set(0, 50, 0);
+    this.camera.position.set(0, 0, 50);
     this.camera.lookAt(new THREE.Vector3(0, 0, 0));
     // 场景
     var cubeTextureLoader = new THREE.CubeTextureLoader();
@@ -48,12 +48,15 @@ export default class modelParts extends Component {
 
     // 灯光
     const light = new THREE.DirectionalLight(0xffffff);
-    light.position.set(10, 10, 10);
+    light.position.set(20, -20, 30);
     this.scene.add(light);
+    const ambientLight = new THREE.AmbientLight(0xffffff); //括号内传入指定颜色
+    ambientLight.position.set(0, 0, 10);
+    this.scene.add(ambientLight);
     // 辅助线
     //X轴是红色. Y轴是绿色. Z轴是蓝色
     const object = new THREE.AxesHelper(10);
-    this.scene.add(object);
+    // this.scene.add(object);
     // 渲染场景
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(this.canvas.offsetWidth, this.canvas.offsetHeight);
@@ -61,7 +64,7 @@ export default class modelParts extends Component {
     // 加载模型
     this.loadModel().then((cube) => {
       console.log(cube);
-      cube.scene.rotateX(-Math.PI / 2);
+      cube.scene.rotateX(Math.PI / 30);
       this.scene.add(cube.scene);
     });
 
