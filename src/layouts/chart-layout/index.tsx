@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Menu, Button } from 'antd';
 import { withRouter, Link } from 'umi';
 import { leftMenus } from './config.js';
+import logo from '/public/image/logo.svg';
 const MenuItem = Menu.Item;
 const { SubMenu } = Menu;
 
@@ -80,12 +81,7 @@ class ChartLayout extends Component {
     });
 
     return (
-      <Menu
-        multiple
-        inlineIndent={20}
-        mode="inline"
-        selectedKeys={[location.pathname]}
-      >
+      <Menu inlineIndent={20} mode="inline" selectedKeys={[location.pathname]}>
         {sideMenus}
       </Menu>
     );
@@ -102,10 +98,7 @@ class ChartLayout extends Component {
             to="/"
             id="logo-container"
           >
-            <img
-              className="logo"
-              src={require('../../../public/image/logo.svg')}
-            />
+            <img className="logo" src={logo} />
             {/* 可视化展示 */}
           </Link>
 

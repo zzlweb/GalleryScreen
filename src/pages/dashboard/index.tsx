@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { throttle } from 'lodash';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import CITY from './cityConfig.js';
+import { handleResize } from '../../utils/ThreeUtils';
 import './index.less';
 class Dashboard extends Component {
   constructor(props) {
@@ -34,7 +35,12 @@ class Dashboard extends Component {
     const that = this;
     this.DrawModel();
     window.addEventListener('resize', () => {
-      that.cityScene && that.cityScene.handleResize(that.cityScene.renderer);
+      that.cityScene &&
+        handleResize(
+          '.city-box',
+          that.cityScene.renderer,
+          that.cityScene.camera,
+        );
     });
   }
 

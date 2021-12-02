@@ -33,6 +33,13 @@ export default defineConfig({
           name: 'three',
           title: 'three展示',
         },
+        {
+          exact: true,
+          path: '/modelParts',
+          component: '@/pages/modelParts/index',
+          name: '模型部件',
+          title: '模型部件',
+        },
         { component: '@/pages/404', title: '404' },
       ],
     },

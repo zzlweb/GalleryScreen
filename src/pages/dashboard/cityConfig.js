@@ -219,7 +219,6 @@ class CityConfig extends City {
 
   // 设置道路
   setRoads(object) {
-    console.log(object);
     const texture = new THREE.Texture(this.generateTexture());
     texture.needsUpdate = true;
     object.material = new THREE.MeshBasicMaterial({
@@ -431,25 +430,6 @@ class CityConfig extends City {
         // );
       };
     });
-  }
-
-  // 自适应
-  handleResize(renderer) {
-    const canvas = document.querySelector('.city-box');
-    if (canvas) {
-      this.size = {
-        width: canvas.offsetWidth,
-        height: canvas.offsetHeight,
-      };
-
-      // Update camera
-      this.camera.aspect = this.size.width / this.size.height;
-      this.camera.updateProjectionMatrix();
-
-      // Update renderer
-      renderer.setSize(this.size.width, this.size.height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    }
   }
 
   animate = (dt) => {

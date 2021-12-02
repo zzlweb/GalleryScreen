@@ -269,7 +269,7 @@ class Scene3d extends D3Function {
       var material = new THREE.MeshPhongMaterial({
         color: 'gray',
         shininess: 10,
-        map: THREE.ImageUtils.loadTexture('/static/ct/ddp.png'),
+        map: new THREE.TextureLoader().load('/static/ct/ddp.png'),
       }); //材料
       var mt = new THREE.Mesh(DDP, material);
       mt.position.x = ddp[i][0];

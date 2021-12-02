@@ -2,18 +2,22 @@ const leftMenus = [
   {
     path: '/dashboard',
     name: '智慧城市',
-    icon: 'BarChartOutlined',
   },
   {
     key: 'ThreeJS',
-    name: 'ThreeJS',
+    name: 'three巡视',
     child: [
       {
         path: '/three',
-        name: 'three巡视',
+        name: 'threeCT',
         icon: 'GlobalOutlined',
       },
     ],
+  },
+  {
+    path: '/modelParts',
+    key: 'modelParts',
+    name: '模型部件',
   },
 ];
 
