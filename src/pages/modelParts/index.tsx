@@ -102,7 +102,7 @@ export default class modelParts extends Component {
       <div
         className="modelParts"
         id="modelParts"
-        ref={(modelParts) => (this.canvas = modelParts)}
+        ref={(c) => (this.canvas = c)}
       ></div>
     );
   }
