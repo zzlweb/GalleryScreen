@@ -41,8 +41,8 @@ export default defineConfig({
           title: '模型部件',
         },
         {
-          name: '图表练手',
-          title: '图表练手',
+          name: '图表',
+          title: '图表',
           path: '/charts/lineChart',
           component: '@/pages/echarts/lineCharts/index',
         },

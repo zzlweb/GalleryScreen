@@ -21,6 +21,15 @@ export default class Line extends Component {
             YData: [150, 230, 224, 218, 135, 147, 260],
           });
         break;
+      case 'StackedLine':
+        this.option =
+          drawChart.StackedLine(this.props.option) ||
+          drawChart.StackedLine({
+            XData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            YData1: [4, 8, 6, 3, 5, 3, 5, 6, 3, 8, 6, 3],
+            YData2: [3, 2, 2, 4, 1, 3, 5, 6, 0, 2, 5, 2],
+          });
+        break;
       default:
         this.option = drawChart.LineChartSimple({
           XData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -39,6 +48,12 @@ export default class Line extends Component {
         this.myChart.resize();
       }
     }, 100);
+  }
+
+  componentDidUpdate() {
+    if (this.props.type === 'StackedLine') {
+      this.myChart.setOption(this.option);
+    }
   }
 
   componentWillUnmount() {

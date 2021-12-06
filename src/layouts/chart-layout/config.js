@@ -22,7 +22,7 @@ const leftMenus = [
   },
   {
     key: 'charts',
-    name: '图表练手',
+    name: '图表',
     child: [
       {
         path: '/charts/lineChart',
