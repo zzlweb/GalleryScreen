@@ -14,7 +14,12 @@ export default class LineChart extends Component {
     const Data1 = [4, 8, 6, 3, 5, 3, 5, 6, 3, 8, 6, 3, 4, 8];
     const Data2 = [3, 2, 2, 4, 1, 3, 5, 6, 0, 2, 5, 2, 5, 7];
     if (this.state.assertID > 11) {
-      clearInterval(this.timer);
+      // clearInterval(this.timer);
+      this.setState({
+        YData1: [4, 8],
+        YData2: [3, 2],
+        assertID: 1,
+      });
     } else {
       this.setState(
         {
