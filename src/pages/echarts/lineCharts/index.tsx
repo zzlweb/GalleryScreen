@@ -46,7 +46,7 @@ export default class LineChart extends Component {
     return (
       <div>
         <Row gutter={[16, 24]}>
-          <Col className="gutter-row" xs={24} md={24} lg={8}>
+          <Col className="gutter-row" xs={24} md={24} lg={12}>
             <Line
               type="LineChartSimple"
               option={{
@@ -55,7 +55,7 @@ export default class LineChart extends Component {
               }}
             ></Line>
           </Col>
-          <Col className="gutter-row" xs={24} md={24} lg={8}>
+          <Col className="gutter-row" xs={24} md={24} lg={12}>
             <Line
               type="StackedLine"
               option={{
@@ -78,7 +78,7 @@ export default class LineChart extends Component {
               }}
             ></Line>
           </Col>
-          <Col className="gutter-row" xs={24} md={24} lg={8}>
+          <Col className="gutter-row" xs={24} md={24} lg={12}>
             <Line
               type="StackedLineTooltip"
               option={{
