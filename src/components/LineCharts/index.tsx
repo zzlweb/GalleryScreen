@@ -11,24 +11,23 @@ export default class Line extends Component {
     this.option = null;
   }
   componentDidMount() {
+    // 初始化图表
     this.myChart = echarts.init(this.Ref.current);
+    this.handleChartOption();
+
+    if (this.myChart) {
+      this.myChart.setOption(this.option);
+      window.addEventListener('resize', () => this.handleResizeChange());
+    }
+  }
+
+  handleChartOption = () => {
     switch (this.props.type) {
       case 'LineChartSimple':
-        this.option =
-          drawChart.LineChartSimple(this.props.option) ||
-          drawChart.LineChartSimple({
-            XData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            YData: [150, 230, 224, 218, 135, 147, 260],
-          });
+        this.option = drawChart.LineChartSimple(this.props.option);
         break;
       case 'StackedLine':
-        this.option =
-          drawChart.StackedLine(this.props.option) ||
-          drawChart.StackedLine({
-            XData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            YData1: [4, 8, 6, 3, 5, 3, 5, 6, 3, 8, 6, 3],
-            YData2: [3, 2, 2, 4, 1, 3, 5, 6, 0, 2, 5, 2],
-          });
+        this.option = drawChart.StackedLine(this.props.option);
         break;
       default:
         this.option = drawChart.LineChartSimple({
@@ -36,11 +35,7 @@ export default class Line extends Component {
           YData: [150, 230, 224, 218, 135, 147, 260],
         });
     }
-    this.myChart.setOption(this.option);
-    if (this.myChart) {
-      window.addEventListener('resize', () => this.handleResizeChange());
-    }
-  }
+  };
 
   handleResizeChange() {
     this.handleResizeChange = throttle(() => {
@@ -50,8 +45,9 @@ export default class Line extends Component {
     }, 100);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(pre) {
     if (this.props.type === 'StackedLine') {
+      this.handleChartOption();
       this.myChart.setOption(this.option);
     }
   }
