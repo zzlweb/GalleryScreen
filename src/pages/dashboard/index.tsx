@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { throttle } from 'lodash';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import CITY from './cityConfig.js';
-import { handleResize } from '../../utils/ThreeUtils';
+import { handleResize } from '@/utils/ThreeUtils';
 import './index.less';
 class Dashboard extends Component {
   constructor(props) {

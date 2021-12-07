@@ -3,6 +3,9 @@ import * as THREE from 'three/build/three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import CameraControls from 'camera-controls';
+import { throttle } from 'lodash';
+import { handleResize, onTransitionMouseXYZ } from '@/utils/ThreeUtils';
+
 import './index.less';
 
 export default class modelParts extends Component {
@@ -14,6 +17,8 @@ export default class modelParts extends Component {
     this.scene = null;
     this.canvas = null;
     this.cameraControls = null;
+    // 一个存储标点实例对象模型的数组（给标点添加事件时有用）
+    this.objArr = [];
   }
 
   // 初始化
@@ -31,9 +36,8 @@ export default class modelParts extends Component {
 
     this.cameraControls = new CameraControls(this.camera, this.canvas);
     // 禁用鼠标滚轮缩放
-
     this.cameraControls.mouseButtons.wheel = CameraControls.ACTION.NONE;
-    this.cameraControls.maxZoom = 0;
+    // this.cameraControls.mouseButtons.left = CameraControls.ACTION.NONE;
     // 场景
     var cubeTextureLoader = new THREE.CubeTextureLoader();
     cubeTextureLoader.setPath('/static/knife/img/');
@@ -98,11 +102,170 @@ export default class modelParts extends Component {
     });
   };
 
+  // 添加标点
+  addPoints = () => {
+    // 利用纹理加载器，加载一个图片，用来做标点的样式
+    const map = new THREE.TextureLoader().load('/image/number-one.svg');
+
+    // 利用这个图片创建一个精灵图材质（无论在哪个视角看，精灵图材质的模型都是面向我们的），sizeAttenuation属性是让模型不随视图内容的缩小放大而缩小放大
+    const spriteMaterial = new THREE.SpriteMaterial({
+      map: map,
+      sizeAttenuation: false,
+    });
+
+    // 创建第二个精灵图材质，depthTest是让这个模型被其它模型遮挡仍然能被看见（默认被遮住时不能透过模型被看见），opacity设置透明度（为什么要弄两个材质？为了让标点被遮住时有被遮住的效果）
+    const spriteMaterial2 = new THREE.SpriteMaterial({
+      map: map,
+      sizeAttenuation: false,
+      depthTest: false,
+      opacity: 0.2,
+    });
+
+    // 创建精灵图模型实例的函数
+    function createMarker(m) {
+      return new THREE.Sprite(m);
+    }
+
+    const that = this;
+
+    // 创建一个标点的函数
+    function createMarkerCon() {
+      // 第一个精灵图模型
+      let sprite1 = createMarker(spriteMaterial);
+      // 第二个精灵图模型
+      let sprite2 = createMarker(spriteMaterial2);
+      // 第一个精灵图模型 把 第二个精灵图模型 添加为子模型
+      sprite1.add(sprite2);
+      // 设置精灵图模型的尺寸缩放
+      sprite1.scale.set(0.04, 0.04, 0.04);
+      // 设置精灵图模型初始位置
+      sprite1.position.set(12, 2, 0);
+      // 因为场景里不可能只有标点，所以要对精灵图模型添加特异性字段进行区分
+      sprite1.isMarker = true;
+      // 把第一个精灵图模型添加到场景
+      that.scene.add(sprite1);
+      // 把标点（第一个精灵图模型）添加到objArr
+      that.objArr.push(sprite1);
+    }
+    // 创建一个标点
+    createMarkerCon();
+  };
+
+  // 处理标点的点击事件
+  handelPointClick = () => {
+    // 创建一个射线实例对象
+    let raycaster = new THREE.Raycaster();
+
+    // 创建一个二维空间点的对象（x,y），在进行将鼠标位置归一化为设备坐标时（x 和 y 方向的取值范围是 (-1 to +1)）有用
+    let mouse = new THREE.Vector2();
+
+    // 存储 鼠标按下时的二维空间点
+    let onDownPosition = new THREE.Vector2();
+
+    // 存储 鼠标松开时的二维空间点
+    let onUpPosition = new THREE.Vector2();
+
+    // 鼠标按键按下时触发的事件
+    let onPointerdown = (event) => {
+      onDownPosition.x = event.clientX;
+      onDownPosition.y = event.clientY;
+    };
+
+    // 鼠标按键松开时触发的事件（相当于点击事件触发）
+    let onPointerup = (event) => {
+      onUpPosition.x = event.clientX;
+      onUpPosition.y = event.clientY;
+
+      // 如果鼠标按键按下和松开的时候是在同一个点同一个位置，则取消 transformControl 变换器正在变换的模型的变化状态，然后触发点击事件
+      if (onDownPosition.distanceTo(onUpPosition) === 0) {
+        onClick(event);
+      }
+    };
+
+    // 点击事件（在onPointerup函数里调用）
+    let onClick = (event) => {
+      // 通过 Utils.onTransitionMouseXYZ 函数把将鼠标位置归一化为设备坐标（实现细节请直接看Utils工具类）
+      if (!this.canvas) {
+        return;
+      }
+
+      let mouse = onTransitionMouseXYZ(event, this.canvas);
+
+      // 通过摄像机和鼠标位置更新射线
+      raycaster.setFromCamera(mouse, this.camera);
+
+      // 计算模型和射线的焦点（objArr就是之前存储标点模型的数组）
+      let intersects = raycaster.intersectObjects(this.objArr);
+
+      // 如果有相交的标点模型，就做一些事情，比如显示弹窗（这不是threejs的内容，不进行介绍，要在html里面加一个弹窗元素，直接看代码即可）
+      if (intersects.length > 0) {
+        const object = intersects[0].object;
+        if (object.isMarker) {
+          // 弹窗内容
+          let info = document.getElementById('info');
+          info.style =
+            'display: inline-block;top: ' +
+            (event.clientY - 30) +
+            'px;left: ' +
+            (event.clientX + 30) +
+            'px;';
+
+          // 计算合适的弹窗大小和位置
+          // let body = document.querySelector('body');
+          // setTimeout(() => {
+          //   body.scrollTop = 1;
+          //   body.scrollLeft = 1;
+          //   if (body.scrollTop) {
+          //     info.style.top = event.clientY - info.clientHeight + 50 + 'px';
+          //     if (event.clientY < info.clientHeight) {
+          //       let { num2 } = numLow10(event.clientX, info.clientWidth);
+          //       info.style.height = num2 + 100 + 'px';
+          //       info.style.top = event.clientX - num2 + 'px';
+          //     }
+          //   }
+          //   if (body.scrollLeft) {
+          //     info.style.left = event.clientX - info.clientWidth - 50 + 'px';
+          //     if (event.clientX < info.clientWidth) {
+          //       let { num2 } = numLow10(event.clientX, info.clientWidth);
+          //       info.style.width = num2 - 100 + 'px';
+          //       info.style.left = event.clientX - num2 + 'px';
+          //     }
+          //   }
+          // }, 10);
+
+          // 如果 num1 < num2 num2就减少10 的递归函数
+          // function numLow10(num1, num2) {
+          //   console.log(num1, num2);
+          //   if (num1 < num2) return numLow10(num1, num2 - 10);
+          //   else return { num1, num2 };
+          // }
+          this.cameraControls.rotate(45 * THREE.MathUtils.DEG2RAD, 0, true);
+        }
+      } else {
+        info.style = 'display: none';
+      }
+    };
+    // 添加事件委托
+    window.addEventListener('pointerdown', onPointerdown, false);
+    window.addEventListener('pointerup', onPointerup, false);
+  };
+
   // 挂载
   componentDidMount() {
+    const that = this;
+    // 初始化场景
     this.initScene();
+    // 创建标点
+    this.addPoints();
+    // 鼠标点击
+    this.handelPointClick();
+
     this.cameraControls.rotate(40 * THREE.MathUtils.DEG2RAD, 0, true);
     this.cameraControls.dolly(150, true);
+
+    window.addEventListener('resize', () => {
+      that.scene && handleResize('.modelParts', that.renderer, that.camera);
+    });
   }
 
   // 卸载
@@ -112,11 +275,13 @@ export default class modelParts extends Component {
     this.scene = null;
     this.canvas = null;
     this.cameraControls.dispose();
+    window.removeEventListener('resize', () => {});
   }
 
   render() {
     return (
       <>
+        <div id="info">刀尖部位</div>
         <div
           className="modelParts"
           id="modelParts"

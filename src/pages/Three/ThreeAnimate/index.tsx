@@ -222,7 +222,6 @@ export default class Three_3D extends Component {
       light.position.set(20, 20, 0);
       scene.add(light);
       const hemiLightHelper = new THREE.HemisphereLightHelper(light, 10);
-      // scene.add(hemiLightHelper);
 
       var dirLight = new THREE.DirectionalLight(0xffffff, 0.54);
       dirLight.position.set(0, 50, 0);
