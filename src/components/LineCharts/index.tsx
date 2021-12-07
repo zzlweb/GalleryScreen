@@ -15,12 +15,14 @@ export default class Line extends Component {
     this.myChart = echarts.init(this.Ref.current);
     this.handleChartOption();
 
+    // 监听resize
     if (this.myChart) {
       this.myChart.setOption(this.option);
       window.addEventListener('resize', () => this.handleResizeChange());
     }
   }
 
+  // 初始化获取option
   handleChartOption = () => {
     switch (this.props.type) {
       case 'LineChartSimple':
@@ -28,6 +30,9 @@ export default class Line extends Component {
         break;
       case 'StackedLine':
         this.option = drawChart.StackedLine(this.props.option);
+        break;
+      case 'StackedLineTooltip':
+        this.option = drawChart.StackedLineTooltip(this.props.option);
         break;
       default:
         this.option = drawChart.LineChartSimple({
@@ -37,6 +42,7 @@ export default class Line extends Component {
     }
   };
 
+  // 处理resize
   handleResizeChange() {
     this.handleResizeChange = throttle(() => {
       if (this.myChart) {
@@ -47,13 +53,16 @@ export default class Line extends Component {
 
   componentDidUpdate(pre) {
     if (this.props.type === 'StackedLine') {
+      // 更新option
       this.handleChartOption();
       this.myChart.setOption(this.option);
     }
   }
 
   componentWillUnmount() {
+    // 销毁图表
     this.myChart.dispose();
+    // 清除resize
     window.addEventListener('resize', () => {});
   }
 
