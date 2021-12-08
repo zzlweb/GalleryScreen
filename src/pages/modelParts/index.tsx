@@ -2,11 +2,16 @@ import React, { Component } from 'react';
 import * as THREE from 'three/build/three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+const {
+  CSS2DObject,
+  CSS2DRenderer,
+} = require('three/examples/jsm/renderers/CSS2DRenderer.js');
 import CameraControls from 'camera-controls';
 import { throttle } from 'lodash';
 import { handleResize, onTransitionMouseXYZ } from '@/utils/ThreeUtils';
 
 import './index.less';
+import { info } from 'console';
 
 export default class modelParts extends Component {
   constructor(props) {
@@ -17,6 +22,7 @@ export default class modelParts extends Component {
     this.scene = null;
     this.canvas = null;
     this.cameraControls = null;
+    this.labelRenderer = null;
     // 一个存储标点实例对象模型的数组（给标点添加事件时有用）
     this.objArr = [];
   }
@@ -37,7 +43,7 @@ export default class modelParts extends Component {
     this.cameraControls = new CameraControls(this.camera, this.canvas);
     // 禁用鼠标滚轮缩放
     this.cameraControls.mouseButtons.wheel = CameraControls.ACTION.NONE;
-    // this.cameraControls.mouseButtons.left = CameraControls.ACTION.NONE;
+    this.cameraControls.mouseButtons.left = CameraControls.ACTION.NONE;
     // 场景
     var cubeTextureLoader = new THREE.CubeTextureLoader();
     cubeTextureLoader.setPath('/static/knife/img/');
@@ -69,6 +75,16 @@ export default class modelParts extends Component {
     // 渲染场景
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(this.canvas.offsetWidth, this.canvas.offsetHeight);
+
+    this.labelRenderer = new CSS2DRenderer();
+    this.labelRenderer.setSize(
+      this.canvas.offsetWidth,
+      this.canvas.offsetHeight,
+    );
+    this.labelRenderer.domElement.style.position = 'absolute';
+    this.labelRenderer.domElement.style.top = '0px';
+    this.canvas.appendChild(this.labelRenderer.domElement);
+
     this.canvas.appendChild(this.renderer.domElement);
     // 加载模型
     this.loadModel().then((cube) => {
@@ -83,6 +99,8 @@ export default class modelParts extends Component {
       requestAnimationFrame(animate);
       if (hasControlsUpdated) {
         that.renderer && that.renderer.render(that.scene, that.camera);
+        that.labelRenderer &&
+          that.labelRenderer.render(that.scene, that.camera);
       }
     }
     animate();
@@ -169,8 +187,6 @@ export default class modelParts extends Component {
     let onPointerdown = (event) => {
       onDownPosition.x = event.clientX;
       onDownPosition.y = event.clientY;
-      let info = document.getElementById('info');
-      info.style = 'display: none';
     };
 
     // 鼠标按键松开时触发的事件（相当于点击事件触发）
@@ -198,57 +214,28 @@ export default class modelParts extends Component {
 
       // 计算模型和射线的焦点（objArr就是之前存储标点模型的数组）
       let intersects = raycaster.intersectObjects(this.objArr);
-
       // 如果有相交的标点模型，就做一些事情，比如显示弹窗（这不是threejs的内容，不进行介绍，要在html里面加一个弹窗元素，直接看代码即可）
       if (intersects.length > 0) {
         const object = intersects[0].object;
         if (object.isMarker) {
           // 弹窗内容
-          let info = document.getElementById('info');
-          info.style =
-            'display: inline-block;top: ' +
-            (event.clientY - 20) +
-            'px;left: ' +
-            (event.clientX + 50) +
-            'px;';
-
-          // 计算合适的弹窗大小和位置
-          // let body = document.querySelector('body');
-          // setTimeout(() => {
-          //   body.scrollTop = 1;
-          //   body.scrollLeft = 1;
-          //   if (body.scrollTop) {
-          //     info.style.top = event.clientY - info.clientHeight + 50 + 'px';
-          //     if (event.clientY < info.clientHeight) {
-          //       let { num2 } = numLow10(event.clientX, info.clientWidth);
-          //       info.style.height = num2 + 100 + 'px';
-          //       info.style.top = event.clientX - num2 + 'px';
-          //     }
-          //   }
-          //   if (body.scrollLeft) {
-          //     info.style.left = event.clientX - info.clientWidth - 50 + 'px';
-          //     if (event.clientX < info.clientWidth) {
-          //       let { num2 } = numLow10(event.clientX, info.clientWidth);
-          //       info.style.width = num2 - 100 + 'px';
-          //       info.style.left = event.clientX - num2 + 'px';
-          //     }
-          //   }
-          // }, 10);
-
-          // 如果 num1 < num2 num2就减少10 的递归函数
-          // function numLow10(num1, num2) {
-          //   console.log(num1, num2);
-          //   if (num1 < num2) return numLow10(num1, num2 - 10);
-          //   else return { num1, num2 };
-          // }
-          // this.cameraControls
-          //   .rotate(25 * THREE.MathUtils.DEG2RAD, 0, true)
-          //   .then(() => {
-          //     info.style = 'display: none';
-          //   });
+          let InfoDiv = document.createElement('div');
+          let InfoLabel = new CSS2DObject(InfoDiv);
+          InfoDiv.className = 'info';
+          InfoDiv.textContent = '刀尖部位';
+          InfoDiv.style.marginTop = '-1em';
+          InfoLabel.position.set(15, 3, 0);
+          this.scene.add(InfoLabel);
+          this.cameraControls.rotate(45 * THREE.MathUtils.DEG2RAD, 0, true);
         }
       } else {
-        info.style = 'display: none';
+        // 删除存在的Info
+        const Info = document.querySelectorAll('.info');
+        if (Info) {
+          Info.forEach((item) => {
+            item.remove();
+          });
+        }
       }
     };
     // 添加事件委托
@@ -281,13 +268,13 @@ export default class modelParts extends Component {
     this.scene = null;
     this.canvas = null;
     this.cameraControls.dispose();
+    this.labelRenderer = null;
     window.removeEventListener('resize', () => {});
   }
 
   render() {
     return (
       <>
-        <div id="info">刀尖部位</div>
         <div
           className="modelParts"
           id="modelParts"
