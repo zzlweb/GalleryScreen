@@ -25,6 +25,8 @@ export default class modelParts extends Component {
     this.labelRenderer = null;
     // 一个存储标点实例对象模型的数组（给标点添加事件时有用）
     this.objArr = [];
+    // 定义状态
+    this.flag = true;
   }
 
   // 初始化
@@ -187,17 +189,8 @@ export default class modelParts extends Component {
     let onPointerdown = (event) => {
       onDownPosition.x = event.clientX;
       onDownPosition.y = event.clientY;
-    };
 
-    // 鼠标按键松开时触发的事件（相当于点击事件触发）
-    let onPointerup = (event) => {
-      onUpPosition.x = event.clientX;
-      onUpPosition.y = event.clientY;
-
-      // 如果鼠标按键按下和松开的时候是在同一个点同一个位置，则取消 transformControl 变换器正在变换的模型的变化状态，然后触发点击事件
-      if (onDownPosition.distanceTo(onUpPosition) === 0) {
-        onClick(event);
-      }
+      onClick(event);
     };
 
     // 点击事件（在onPointerup函数里调用）
@@ -206,7 +199,6 @@ export default class modelParts extends Component {
       if (!this.canvas) {
         return;
       }
-
       let mouse = onTransitionMouseXYZ(event, this.canvas);
 
       // 通过摄像机和鼠标位置更新射线
@@ -217,7 +209,7 @@ export default class modelParts extends Component {
       // 如果有相交的标点模型，就做一些事情，比如显示弹窗（这不是threejs的内容，不进行介绍，要在html里面加一个弹窗元素，直接看代码即可）
       if (intersects.length > 0) {
         const object = intersects[0].object;
-        if (object.isMarker) {
+        if (object.isMarker && this.flag) {
           // 弹窗内容
           let InfoDiv = document.createElement('div');
           let InfoLabel = new CSS2DObject(InfoDiv);
@@ -226,21 +218,23 @@ export default class modelParts extends Component {
           InfoDiv.style.marginTop = '-1em';
           InfoLabel.position.set(15, 3, 0);
           this.scene.add(InfoLabel);
-          this.cameraControls.rotate(45 * THREE.MathUtils.DEG2RAD, 0, true);
+          this.cameraControls.rotate(25 * THREE.MathUtils.DEG2RAD, 0, true);
+          this.flag = false;
         }
       } else {
         // 删除存在的Info
         const Info = document.querySelectorAll('.info');
         if (Info) {
           Info.forEach((item) => {
-            item.remove();
+            item.style.display = 'none';
+            this.flag = true;
           });
         }
+        this.camera.updateProjectionMatrix();
       }
     };
     // 添加事件委托
     window.addEventListener('pointerdown', onPointerdown, false);
-    window.addEventListener('pointerup', onPointerup, false);
   };
 
   // 挂载
@@ -258,6 +252,7 @@ export default class modelParts extends Component {
 
     window.addEventListener('resize', () => {
       that.scene && handleResize('.modelParts', that.renderer, that.camera);
+      // that.scene && handleResize('.modelParts', that.labelRenderer, that.camera);
     });
   }
 
@@ -270,6 +265,7 @@ export default class modelParts extends Component {
     this.cameraControls.dispose();
     this.labelRenderer = null;
     window.removeEventListener('resize', () => {});
+    window.removeEventListener('pointerdown', () => {});
   }
 
   render() {
