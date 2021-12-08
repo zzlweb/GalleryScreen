@@ -169,6 +169,8 @@ export default class modelParts extends Component {
     let onPointerdown = (event) => {
       onDownPosition.x = event.clientX;
       onDownPosition.y = event.clientY;
+      let info = document.getElementById('info');
+      info.style = 'display: none';
     };
 
     // 鼠标按键松开时触发的事件（相当于点击事件触发）
@@ -205,9 +207,9 @@ export default class modelParts extends Component {
           let info = document.getElementById('info');
           info.style =
             'display: inline-block;top: ' +
-            (event.clientY - 30) +
+            (event.clientY - 20) +
             'px;left: ' +
-            (event.clientX + 30) +
+            (event.clientX + 50) +
             'px;';
 
           // 计算合适的弹窗大小和位置
@@ -239,7 +241,11 @@ export default class modelParts extends Component {
           //   if (num1 < num2) return numLow10(num1, num2 - 10);
           //   else return { num1, num2 };
           // }
-          this.cameraControls.rotate(45 * THREE.MathUtils.DEG2RAD, 0, true);
+          // this.cameraControls
+          //   .rotate(25 * THREE.MathUtils.DEG2RAD, 0, true)
+          //   .then(() => {
+          //     info.style = 'display: none';
+          //   });
         }
       } else {
         info.style = 'display: none';
