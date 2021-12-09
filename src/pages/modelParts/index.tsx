@@ -11,7 +11,6 @@ import { throttle } from 'lodash';
 import { handleResize, onTransitionMouseXYZ } from '@/utils/ThreeUtils';
 
 import './index.less';
-import { info } from 'console';
 
 export default class modelParts extends Component {
   constructor(props) {

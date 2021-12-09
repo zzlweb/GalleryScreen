@@ -99,7 +99,7 @@ class ChartLayout extends Component {
             id="logo-container"
           >
             <img className="logo" src={logo} />
-            {/* 可视化展示 */}
+            可视化展示
           </Link>
 
           <div className="fill-flex center-title" id="step-two">
