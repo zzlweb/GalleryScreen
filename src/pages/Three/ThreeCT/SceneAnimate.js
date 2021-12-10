@@ -1,6 +1,6 @@
 import * as THREE from 'three/build/three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+const { OrbitControls } = require('three/examples/jsm/controls/OrbitControls');
+const { GLTFLoader } = require('three/examples/jsm/loaders/GLTFLoader');
 
 // 着色器 1
 const vertexShaderText =

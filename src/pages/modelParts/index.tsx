@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import * as THREE from 'three/build/three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+const {
+  OrbitControls,
+} = require('three/examples/jsm/controls/OrbitControls.js');
+const { GLTFLoader } = require('three/examples/jsm/loaders/GLTFLoader');
 const {
   CSS2DObject,
   CSS2DRenderer,

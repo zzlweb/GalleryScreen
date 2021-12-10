@@ -46,6 +46,12 @@ export default defineConfig({
           path: '/charts/lineChart',
           component: '@/pages/echarts/lineCharts/index',
         },
+        {
+          name: '表格',
+          title: '表格',
+          path: '/table',
+          component: '@/pages/table/index',
+        },
         { component: '@/pages/404', title: '404' },
       ],
     },

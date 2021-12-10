@@ -30,6 +30,11 @@ const leftMenus = [
       },
     ],
   },
+  {
+    key: 'table',
+    name: '表格',
+    path: '/table',
+  },
 ];
 
 export { leftMenus };

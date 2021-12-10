@@ -1,6 +1,8 @@
 import * as THREE from 'three';
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+const { FBXLoader } = require('three/examples/jsm/loaders/FBXLoader.js');
+const {
+  OrbitControls,
+} = require('three/examples/jsm/controls/OrbitControls.js');
 import Radar from './utils/radar.js';
 import { surroundLine } from './utils/surroundLine.js';
 const radarData = [
