@@ -15,7 +15,7 @@ export default {
     *deleteOne({ payload }, { call, put }) {
       const rsp = yield call(TableService.deleteOne, payload);
       console.log('deleteOne');
-      console.log(rsp);
+      yield put({ type: 'queryList' });
       return rsp;
     },
     *addOne({ payload }, { call, put }) {
