@@ -23,6 +23,11 @@ export default {
       yield put({ type: 'queryList' });
       return rsp;
     },
+    *changeList({ payload }, { call, put }) {
+      const rsp = yield call(TableService.changeList, payload);
+      yield put({ type: 'queryList' });
+      return rsp;
+    },
   },
 
   reducers: {

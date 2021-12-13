@@ -1,6 +1,7 @@
 let data = [
   {
     id: 1,
+    key: 1,
     name: 'umi',
     desc: '极快的类 Next.js 的 React 应用框架。',
     url: 'https://umijs.org',
@@ -8,6 +9,7 @@ let data = [
   },
   {
     id: 2,
+    key: 2,
     name: 'antd',
     desc: '一个服务于企业级产品的设计体系。',
     url: 'https://ant.design/index-cn',
@@ -15,6 +17,7 @@ let data = [
   },
   {
     id: 3,
+    key: 3,
     name: 'antd-pro',
     desc: '一个服务于企业级产品的设计体系。',
     url: 'https://ant.design/index-cn',
@@ -44,6 +47,7 @@ export default {
       {
         ...req.body,
         id: data[data.length - 1].id + 1,
+        key: data[data.length - 1].id + 1,
       },
     ];
 
@@ -51,14 +55,52 @@ export default {
       success: true,
     });
   },
+  'post /api/tables/changelist': function (req, res, next) {
+    const { row, index } = req.body;
+    if (index) {
+      const item = data[index];
+      const { name, desc, url } = row;
+      item.name = name;
+      item.desc = desc;
+      item.url = url;
+    } else {
+      data = [
+        ...data,
+        {
+          ...row,
+          tag: 'loser',
+          id: data[data.length - 1].id + 1,
+          key: data[data.length - 1].id + 1,
+        },
+      ];
+    }
+    res.json({
+      success: true,
+    });
+  },
   'get /api/tables/:id/statistic': function (req, res, next) {
     res.json({
       result: [
-        { genre: 'Sports', sold: 275 },
-        { genre: 'Strategy', sold: 1150 },
-        { genre: 'Action', sold: 120 },
-        { genre: 'Shooter', sold: 350 },
-        { genre: 'Other', sold: 150 },
+        {
+          genre: 'Sports',
+          sold: 275,
+        },
+        {
+          genre: 'Strategy',
+          sold: 1150,
+        },
+        {
+          genre: 'Action',
+          sold: 120,
+        },
+        {
+          genre: 'Shooter',
+          sold: 350,
+        },
+        {
+          genre: 'Other',
+          sold: 150,
+        },
       ],
     });
   },

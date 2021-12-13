@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import {
   Table,
   Tag,
@@ -9,64 +9,218 @@ import {
   Form,
   Input,
   Select,
+  Popconfirm,
+  Typography,
 } from 'antd';
 import './index.less';
 import { connect } from 'dva';
+
+const EditableCell = ({
+  editing,
+  dataIndex,
+  title,
+  inputType,
+  record,
+  index,
+  children,
+  ...restProps
+}) => {
+  const inputNode = <Input />;
+
+  return (
+    <td {...restProps}>
+      {editing ? (
+        <Form.Item
+          name={dataIndex}
+          style={{
+            margin: 0,
+          }}
+          rules={[
+            {
+              required: true,
+              message: `Please Input ${title}!`,
+            },
+          ]}
+        >
+          {inputNode}
+        </Form.Item>
+      ) : (
+        children
+      )}
+    </td>
+  );
+};
+
+const EditableTable = (props) => {
+  const [form] = Form.useForm();
+  const [editingKey, setEditingKey] = useState('');
+
+  const isEditing = (record) => record.id === editingKey;
+
+  const edit = (record) => {
+    form.setFieldsValue({
+      name: '',
+      desc: '',
+      url: '',
+      ...record,
+    });
+    setEditingKey(record.id);
+  };
+
+  const cancel = () => {
+    setEditingKey('');
+  };
+
+  const save = async (id) => {
+    try {
+      const row = await form.validateFields();
+      const newData = [...props.originData];
+      const index = newData.findIndex((item) => id === item.id);
+
+      if (index > -1) {
+        // 更新item
+        props.changeList(row, index);
+        setEditingKey('');
+      } else {
+        props.changeList(row);
+        setEditingKey('');
+      }
+    } catch (errInfo) {
+      console.log('Validate Failed:', errInfo);
+    }
+  };
+
+  const deleteList = (id) => {
+    props.delData(id);
+  };
+
+  const columns = [
+    {
+      title: '名称',
+      key: 'name',
+      dataIndex: 'name',
+      editable: true,
+    },
+    {
+      title: '描述',
+      dataIndex: 'desc',
+      key: 'desc',
+      editable: true,
+    },
+    {
+      title: '链接',
+      dataIndex: 'url',
+      key: 'url',
+      editable: true,
+    },
+    {
+      title: '标签',
+      key: 'tags',
+      dataIndex: 'tags',
+      render: (tags) => (
+        <>
+          {tags.map((tag) => {
+            let color = tag.length > 5 ? 'geekblue' : 'green';
+            if (tag === 'loser') {
+              color = 'volcano';
+            }
+            return (
+              <Tag color={color} key={tag}>
+                {tag.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </>
+      ),
+    },
+    {
+      title: '操作',
+      key: 'action',
+      render: (text, record) => {
+        const editable = isEditing(record);
+        return editable ? (
+          <span>
+            <Typography.Link
+              onClick={() => save(record.id)}
+              style={{
+                marginRight: 8,
+              }}
+            >
+              保存
+            </Typography.Link>
+            <Popconfirm
+              title="确定取消吗?"
+              cancelText="取消"
+              okText="确定"
+              onConfirm={cancel}
+            >
+              <a>取消</a>
+            </Popconfirm>
+          </span>
+        ) : (
+          <Typography.Link
+            disabled={editingKey !== ''}
+            onClick={() => edit(record)}
+          >
+            编辑
+          </Typography.Link>
+        );
+      },
+    },
+    {
+      title: '删除',
+      key: 'del',
+      render: (text, record) => {
+        return (
+          <Typography.Link onClick={() => deleteList(record.id)}>
+            删除
+          </Typography.Link>
+        );
+      },
+    },
+  ];
+
+  const mergedColumns = columns.map((col) => {
+    if (!col.editable) {
+      return col;
+    }
+    return {
+      ...col,
+      onCell: (record) => ({
+        record,
+        inputType: col.dataIndex === 'text',
+        dataIndex: col.dataIndex,
+        title: col.title,
+        editing: isEditing(record),
+      }),
+    };
+  });
+
+  return (
+    <Form form={form} component={false}>
+      <Table
+        components={{
+          body: {
+            cell: EditableCell,
+          },
+        }}
+        loading={props.loading}
+        dataSource={props.originData}
+        columns={mergedColumns}
+        rowClassName="editable-row"
+        pagination={{
+          onChange: cancel,
+        }}
+      />
+    </Form>
+  );
+};
+
 @connect(({ table, loading }) => ({
   ...table,
   loading,
 }))
 export default class TableState extends Component {
-  constructor(props) {
-    super(props);
-    this.columns = [
-      {
-        title: '名称',
-        dataIndex: 'name',
-      },
-      {
-        title: '描述',
-        dataIndex: 'desc',
-      },
-      {
-        title: '链接',
-        dataIndex: 'url',
-      },
-      {
-        title: 'Tags',
-        key: 'tags',
-        dataIndex: 'tags',
-        render: (tags) => (
-          <>
-            {tags.map((tag) => {
-              let color = tag.length > 5 ? 'geekblue' : 'green';
-              if (tag === 'loser') {
-                color = 'volcano';
-              }
-              return (
-                <Tag color={color} key={tag}>
-                  {tag.toUpperCase()}
-                </Tag>
-              );
-            })}
-          </>
-        ),
-      },
-      {
-        title: 'Action',
-        key: 'action',
-        render: (text, record) => (
-          <Space size="middle">
-            <a onClick={() => this.ChangeList(record)}>编辑修改</a>
-            <a onClick={() => this.deleteList(record.id)}>删除</a>
-          </Space>
-        ),
-      },
-    ];
-    this.editingKey = '';
-    this.setEditingKey = '';
-  }
-
   state = {
     isModalVisible: false,
   };
@@ -80,18 +234,6 @@ export default class TableState extends Component {
     this.props.dispatch({
       type: 'table/queryList',
     });
-  };
-
-  // 删
-  deleteList = (id) => {
-    this.props
-      .dispatch({
-        type: 'table/deleteOne',
-        payload: id,
-      })
-      .then(() => {
-        message.success('删除成功,更新！');
-      });
   };
 
   // 增
@@ -118,9 +260,27 @@ export default class TableState extends Component {
     }
   };
 
-  // 改
-  ChangeList = (value) => {
-    console.log(value);
+  //删除
+  deleteList = (id) => {
+    this.props
+      .dispatch({
+        type: 'table/deleteOne',
+        payload: id,
+      })
+      .then(() => {
+        message.success('删除成功,更新！');
+      });
+  };
+
+  // 修改
+  changeList = (row, index) => {
+    this.props.dispatch({
+      type: 'table/changeList',
+      payload: {
+        row,
+        index,
+      },
+    });
   };
 
   // 模态事件处理
@@ -158,7 +318,7 @@ export default class TableState extends Component {
   };
 
   render() {
-    const { TableList, loading } = this.props;
+    const { loading, TableList } = this.props;
     const isLoading = loading.effects['table/queryList'];
     return (
       <div className="wrapTable">
@@ -171,11 +331,11 @@ export default class TableState extends Component {
         >
           新增数据
         </Button>
-        <Table
-          columns={this.columns}
+        <EditableTable
+          originData={TableList}
+          delData={this.deleteList}
           loading={isLoading}
-          rowKey="id"
-          dataSource={TableList}
+          changeList={this.changeList}
         />
         <Modal
           title="新增数据"

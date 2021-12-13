@@ -11,8 +11,17 @@ export function deleteOne(id) {
 }
 
 export function addOne(data) {
-  console.log(data);
   return request('/api/tables/add', {
+    headers: {
+      'content-type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+export function changeList(data) {
+  return request('/api/tables/changelist', {
     headers: {
       'content-type': 'application/json',
     },
