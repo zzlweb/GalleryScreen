@@ -57,23 +57,13 @@ export default {
   },
   'post /api/tables/changelist': function (req, res, next) {
     const { row, index } = req.body;
-    if (index) {
-      const item = data[index];
-      const { name, desc, url } = row;
-      item.name = name;
-      item.desc = desc;
-      item.url = url;
-    } else {
-      data = [
-        ...data,
-        {
-          ...row,
-          tag: 'loser',
-          id: data[data.length - 1].id + 1,
-          key: data[data.length - 1].id + 1,
-        },
-      ];
-    }
+
+    const item = data[index];
+    const { name, desc, url } = row;
+    item.name = name;
+    item.desc = desc;
+    item.url = url;
+
     res.json({
       success: true,
     });
