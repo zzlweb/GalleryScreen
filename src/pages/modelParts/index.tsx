@@ -26,8 +26,6 @@ export default class modelParts extends Component {
     this.labelRenderer = null;
     // 一个存储标点实例对象模型的数组（给标点添加事件时有用）
     this.objArr = [];
-    // 定义状态
-    this.flag = true;
   }
 
   // 初始化
@@ -73,8 +71,8 @@ export default class modelParts extends Component {
     this.scene.add(ambientLight);
     // 辅助线
     //X轴是红色. Y轴是绿色. Z轴是蓝色
-    const object = new THREE.AxesHelper(10);
-    this.scene.add(object);
+    // const object = new THREE.AxesHelper(10);
+    // this.scene.add(object);
     // 渲染场景
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(this.canvas.offsetWidth, this.canvas.offsetHeight);
@@ -200,6 +198,7 @@ export default class modelParts extends Component {
       if (!this.canvas) {
         return;
       }
+
       let mouse = onTransitionMouseXYZ(event, this.canvas);
 
       // 通过摄像机和鼠标位置更新射线
@@ -210,25 +209,38 @@ export default class modelParts extends Component {
       // 如果有相交的标点模型，就做一些事情，比如显示弹窗（这不是threejs的内容，不进行介绍，要在html里面加一个弹窗元素，直接看代码即可）
       if (intersects.length > 0) {
         const object = intersects[0].object;
-        if (object.isMarker && this.flag) {
+        if (object.isMarker) {
           // 弹窗内容
           let InfoDiv = document.createElement('div');
           let InfoLabel = new CSS2DObject(InfoDiv);
           InfoDiv.className = 'info';
           InfoDiv.textContent = '刀尖部位';
           InfoDiv.style.marginTop = '-1em';
-          InfoLabel.position.set(15, 3, 0);
+          InfoLabel.position.set(13, 3, 0);
           this.scene.add(InfoLabel);
-          this.cameraControls.rotate(25 * THREE.MathUtils.DEG2RAD, 0, true);
-          this.flag = false;
+          this.cameraControls.lerpLookAt(
+            0,
+            0,
+            200,
+            0,
+            0,
+            0,
+            50,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            true,
+          );
         }
       } else {
         // 删除存在的Info
         const Info = document.querySelectorAll('.info');
         if (Info) {
           Info.forEach((item) => {
-            item.style.display = 'none';
-            this.flag = true;
+            item.classList.add('none');
           });
         }
         this.camera.updateProjectionMatrix();
