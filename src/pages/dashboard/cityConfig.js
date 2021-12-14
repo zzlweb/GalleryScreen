@@ -131,6 +131,33 @@ class CityConfig extends City {
     this.controls = new OrbitControls(this.camera, this.canvas);
     this.controls.enableDamping = true;
 
+    const curve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(300, 500, 1000),
+      new THREE.Vector3(300, 300, 0),
+      new THREE.Vector3(-300, 300, 0),
+      new THREE.Vector3(-300, 300, -300),
+      new THREE.Vector3(300, 300, -300),
+      new THREE.Vector3(450, 300, -150),
+      new THREE.Vector3(450, 300, -150),
+      new THREE.Vector3(-1000, 800, -150),
+      new THREE.Vector3(-300, 500, 1500),
+      new THREE.Vector3(-700, 900, 800),
+      new THREE.Vector3(-900, 500, 1700),
+      new THREE.Vector3(-800, 100, 1700),
+      new THREE.Vector3(-800, 100, 1200),
+      new THREE.Vector3(-500, 100, 1000),
+      new THREE.Vector3(-300, 100, 700),
+      new THREE.Vector3(300, 500, 1000),
+    ]);
+    const points = curve.getPoints(100);
+    const pathMesh = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints(points),
+      new THREE.LineBasicMaterial({
+        color: 0x00ffff,
+      }),
+    );
+    // this.scene.add(pathMesh);
+
     const clock = new THREE.Clock();
     const tick = () => {
       const dt = clock.getDelta();
