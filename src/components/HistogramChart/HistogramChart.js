@@ -1,11 +1,10 @@
 import * as echarts from 'echarts';
 
 function HistogramChartBase(chartData) {
-  let max = 250,
+  let max = 100,
     chartData1 = [];
   if (chartData && chartData.data) {
-    max = Math.ceil(Math.max(...chartData.data) * 1);
-    console.log(max);
+    max = Math.ceil(Math.max(...chartData.data) * 1.1);
     chartData.data.map(() => {
       chartData1.push(max);
     });
@@ -39,11 +38,9 @@ function HistogramChartBase(chartData) {
         alignWithLabel: 'auto',
       },
       axisLabel: {
-        textStyle: {
-          color: '#B9B9BA',
-          fontSize: 12,
-          margin: 0,
-        },
+        color: '#B9B9BA',
+        fontSize: 12,
+        margin: 0,
       },
     },
     yAxis: {
