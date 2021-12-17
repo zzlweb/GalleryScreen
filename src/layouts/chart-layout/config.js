@@ -25,8 +25,12 @@ const leftMenus = [
     name: '图表',
     child: [
       {
-        path: '/charts/lineChart',
-        name: '折线',
+        path: '/charts/LineChart',
+        name: '折线图',
+      },
+      {
+        path: '/charts/HistogramChart',
+        name: '柱状图',
       },
     ],
   },

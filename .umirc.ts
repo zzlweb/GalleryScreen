@@ -42,9 +42,15 @@ export default defineConfig({
         },
         {
           name: '图表',
-          title: '图表',
+          title: '折线图',
           path: '/charts/lineChart',
-          component: '@/pages/echarts/lineCharts/index',
+          component: '@/pages/echarts/LineCharts/index',
+        },
+        {
+          name: '图表',
+          title: '柱状图',
+          path: '/charts/HistogramChart',
+          component: '@/pages/echarts/HistogramChart/index',
         },
         {
           name: '表格',

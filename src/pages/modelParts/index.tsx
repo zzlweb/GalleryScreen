@@ -169,7 +169,7 @@ export default class modelParts extends Component {
     // 创建一个标点
     createMarkerCon();
   };
-
+  // https://www.cnblogs.com/lst619247/p/9071233.html
   // 处理标点的点击事件
   handelPointClick = () => {
     // 创建一个射线实例对象
@@ -180,9 +180,6 @@ export default class modelParts extends Component {
 
     // 存储 鼠标按下时的二维空间点
     let onDownPosition = new THREE.Vector2();
-
-    // 存储 鼠标松开时的二维空间点
-    let onUpPosition = new THREE.Vector2();
 
     // 鼠标按键按下时触发的事件
     let onPointerdown = (event) => {
