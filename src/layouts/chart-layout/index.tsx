@@ -3,6 +3,7 @@ import { Menu, Button } from 'antd';
 import { withRouter, Link } from 'umi';
 import { leftMenus } from './config.js';
 import logo from '/public/image/logo.svg';
+import Breadcrumb from './Breadcrumb.tsx';
 const MenuItem = Menu.Item;
 const { SubMenu } = Menu;
 
@@ -13,29 +14,6 @@ class ChartLayout extends Component {
       pageTitle: '可视化展示',
       img: null,
     };
-  }
-
-  componentDidMount() {
-    const title = this.handleRoute(
-      this.props.route.routes,
-      this.props.location.pathname,
-    );
-    if (title) {
-      this.setState({
-        pageTitle: title,
-      });
-    }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    const title = this.handleRoute(
-      this.props.route.routes,
-      nextProps.location.pathname,
-    );
-    if (title) {
-      this.state.pageTitle = title;
-    }
-    return true;
   }
 
   handleRoute = (routes, key) => {
@@ -52,8 +30,6 @@ class ChartLayout extends Component {
 
   renderMenus = () => {
     const { location } = this.props;
-    // console.log('location', location)
-
     const sideMenus = leftMenus.map((item) => {
       if (item.child?.length > 0) {
         return (
@@ -89,7 +65,6 @@ class ChartLayout extends Component {
 
   render() {
     const { pageTitle, img } = this.state;
-
     return (
       <div className="basic-layout flex-col">
         <div className="layout-header flex-row">
@@ -103,7 +78,7 @@ class ChartLayout extends Component {
           </Link>
 
           <div className="fill-flex center-title" id="step-two">
-            {pageTitle}
+            <Breadcrumb />
           </div>
         </div>
         <div className="content-container fill-flex flex-row">

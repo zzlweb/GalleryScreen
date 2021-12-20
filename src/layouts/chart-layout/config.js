@@ -11,7 +11,6 @@ const leftMenus = [
       {
         path: '/three',
         name: 'threeCT',
-        icon: 'GlobalOutlined',
       },
     ],
   },

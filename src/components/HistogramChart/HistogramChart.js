@@ -62,10 +62,8 @@ function HistogramChartBase(chartData) {
         show: false,
       },
       axisLabel: {
-        textStyle: {
-          color: '#B9B9BA',
-          fontSize: 12,
-        },
+        color: '#B9B9BA',
+        fontSize: 12,
       },
     },
     series: [
