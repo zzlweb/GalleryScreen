@@ -9,7 +9,7 @@ const {
   CSS2DRenderer,
 } = require('three/examples/jsm/renderers/CSS2DRenderer.js');
 import CameraControls from 'camera-controls';
-import { throttle } from 'lodash';
+import throttle from 'lodash';
 import { handleResize, onTransitionMouseXYZ } from '@/utils/ThreeUtils';
 
 import './index.less';
@@ -261,8 +261,8 @@ export default class modelParts extends Component {
     this.cameraControls.dolly(150, true);
 
     window.addEventListener('resize', () => {
-      that.scene && handleResize('.modelParts', that.renderer, that.camera);
-      // that.scene && handleResize('.modelParts', that.labelRenderer, that.camera);
+      that.scene &&
+        throttle(handleResize('.modelParts', that.renderer, that.camera), 100);
     });
   }
 
