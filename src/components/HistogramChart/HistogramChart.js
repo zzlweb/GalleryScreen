@@ -13,10 +13,9 @@ function HistogramChartBase(chartData) {
     tooltip: {
       trigger: 'item',
       textStyle: {
-        fontSize: 12,
-        color: '#fff',
+        color: '#b9b9ba',
       },
-      borderColor: '#333',
+      borderColor: 'rgba(74,72,72)',
       backgroundColor: 'rgba(14,48,45,0.9)',
       padding: [7, 10],
       formatter: '{b0}:{c0}',
@@ -102,6 +101,230 @@ function HistogramChartBase(chartData) {
   };
 }
 
+function HistogramChartGradient(chartData) {
+  return {
+    tooltip: {
+      trigger: 'item',
+      textStyle: {
+        fontSize: 12,
+        color: '#fff',
+      },
+      borderColor: '#333',
+      backgroundColor: 'rgba(14,48,45,0.9)',
+      padding: [7, 10],
+      formatter: '{b0}:{c0}',
+    },
+    grid: {
+      top: '10%',
+      right: '5%',
+      left: '5%',
+      bottom: '10%',
+      containLabel: true,
+    },
+    xAxis: {
+      data: chartData.xLabel,
+      axisLine: {
+        show: true, //隐藏X轴轴线
+        lineStyle: {
+          color: 'rgba(241,241,241,0.3)',
+          width: 0.5,
+        },
+      },
+      // 不显示刻度
+      axisTick: {
+        show: false, //隐藏X轴刻度
+      },
+      axisLabel: {
+        show: true,
+        margin: 14,
+        fontSize: 14,
+        color: 'rgba(255,255,255,0.4)',
+      },
+    },
+    yAxis: [
+      {
+        type: 'value',
+        gridIndex: 0,
+        min: 0,
+        max: 100,
+        interval: 25,
+        // splitNumber: 4,
+        // 横向分割线不显示
+        splitLine: {
+          show: false,
+        },
+        axisTick: {
+          show: false,
+        },
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: 'rgba(241,241,241,0.3)',
+            width: 0.5,
+          },
+        },
+        axisLabel: {
+          show: true,
+          margin: 14,
+          fontSize: 14,
+          color: 'rgba(255,255,255,0.4)',
+        },
+      },
+    ],
+
+    series: [
+      {
+        name: 'test',
+        type: 'bar',
+        barWidth: 20,
+        itemStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: '#37ecba',
+            },
+            {
+              offset: 1,
+              color: '#72afd3',
+            },
+          ]),
+        },
+        data: chartData.data,
+        z: 10,
+        zlevel: 0,
+        label: {
+          show: true,
+          position: 'top',
+          distance: 10,
+          fontSize: 16,
+          color: '#01fff4',
+        },
+      },
+      {
+        // 分隔
+        type: 'pictorialBar',
+        itemStyle: {
+          color: '#000000',
+        },
+        symbolRepeat: 'fixed',
+        symbolMargin: 6,
+        symbol: 'rect',
+        symbolClip: true,
+        symbolSize: [20, 2],
+        symbolPosition: 'start',
+        symbolOffset: [0, 0],
+        data: chartData.data,
+        width: 25,
+        z: 0,
+        zlevel: 1,
+      },
+    ],
+  };
+}
+
+function HistogramChartStack(chartData) {
+  return {
+    tooltip: {
+      trigger: 'axis',
+      textStyle: {
+        fontSize: 12,
+        color: '#fff',
+      },
+      axisPointer: {
+        lineStyle: {
+          color: 'rgba(11, 208, 241, 1)',
+          type: 'slider',
+        },
+      },
+      borderColor: '#333',
+      backgroundColor: 'rgba(14,48,45,0.9)',
+      padding: [7, 10],
+    },
+    grid: {
+      top: '10%',
+      right: '5%',
+      left: '5%',
+      bottom: '10%',
+      containLabel: true,
+    },
+    xAxis: {
+      data: chartData.xLabel,
+      axisLine: {
+        show: true, //隐藏X轴轴线
+        lineStyle: {
+          color: 'rgba(241,241,241,0.3)',
+          width: 0.5,
+        },
+      },
+      // 不显示刻度
+      axisTick: {
+        show: false, //隐藏X轴刻度
+      },
+      axisLabel: {
+        show: true,
+        margin: 14,
+        fontSize: 14,
+        color: 'rgba(255,255,255,0.4)',
+      },
+    },
+    yAxis: [
+      {
+        type: 'value',
+        interval: 25,
+        // splitNumber: 4,
+        // 横向分割线不显示
+        splitLine: {
+          show: false,
+        },
+        axisTick: {
+          show: false,
+        },
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: 'rgba(241,241,241,0.3)',
+            width: 0.5,
+          },
+        },
+        axisLabel: {
+          show: true,
+          margin: 14,
+          fontSize: 14,
+          color: 'rgba(255,255,255,0.4)',
+        },
+      },
+    ],
+    series: [
+      {
+        name: '输入',
+        type: 'bar',
+        stack: '排名',
+        barWidth: 20,
+        itemStyle: {
+          color: '#0acffe',
+        },
+        data: chartData.data1,
+        z: 10,
+        zlevel: 0,
+      },
+      {
+        name: '输出',
+        type: 'bar',
+        stack: '排名',
+        barWidth: 20,
+        itemStyle: {
+          color: '#37ecba',
+        },
+        data: chartData.data2,
+        z: 10,
+        zlevel: 0,
+      },
+    ],
+  };
+}
+
 export default {
   HistogramChartBase,
+  HistogramChartGradient,
+  HistogramChartStack,
 };

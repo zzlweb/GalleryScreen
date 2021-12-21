@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import * as echarts from 'echarts';
 import drawChart from './HistogramChart';
 import { throttle } from 'lodash';
-
 export default class Line extends Component {
   constructor(props) {
     super(props);
@@ -28,10 +27,14 @@ export default class Line extends Component {
       case 'LineChartSimple':
         this.option = drawChart.HistogramChartBase(this.props.option);
         break;
+      case 'HistogramChartGradient':
+        this.option = drawChart.HistogramChartGradient(this.props.option);
+        break;
+      case 'HistogramChartStack':
+        this.option = drawChart.HistogramChartStack(this.props.option);
+        break;
       default:
-        this.option = drawChart.HistogramChartBase({
-          data: [26, 78, 2, 11, 12, 194, 33, 106],
-        });
+        return;
     }
   };
 
