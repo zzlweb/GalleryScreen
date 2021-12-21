@@ -8,6 +8,8 @@ export default class Line extends Component {
     this.Ref = React.createRef();
     this.myChart = null;
     this.option = null;
+    this.timer = null;
+    this.len = 0;
   }
   componentDidMount() {
     // 初始化图表
@@ -19,7 +21,25 @@ export default class Line extends Component {
       this.myChart.setOption(this.option);
       window.addEventListener('resize', () => this.handleResizeChange());
     }
+
+    if (this.props.type === 'HistogramChartStack') {
+      this.Interval();
+    }
   }
+
+  Interval = () => {
+    this.timer = setInterval(() => {
+      if (this.len === 6) {
+        this.len = 0;
+      }
+      this.myChart.dispatchAction({
+        type: 'showTip',
+        seriesIndex: 0,
+        dataIndex: this.len,
+      });
+      this.len++;
+    }, 2000);
+  };
 
   // 初始化获取option
   handleChartOption = () => {
@@ -60,6 +80,8 @@ export default class Line extends Component {
     this.myChart.dispose();
     // 清除resize
     window.addEventListener('resize', () => {});
+    // 清除
+    clearInterval(this.timer);
   }
 
   render() {
