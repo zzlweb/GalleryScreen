@@ -31,6 +31,10 @@ const leftMenus = [
         path: '/charts/HistogramChart',
         name: '柱状图',
       },
+      {
+        path: '/charts/PieChart',
+        name: '饼状图',
+      },
     ],
   },
   {

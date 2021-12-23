@@ -335,7 +335,6 @@ export default class TableState extends Component {
         <EditableTable
           originData={TableList}
           delData={this.deleteList}
-          loading={isLoading}
           changeList={this.changeList}
         />
         <Modal

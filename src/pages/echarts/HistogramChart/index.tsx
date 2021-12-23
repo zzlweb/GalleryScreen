@@ -9,7 +9,7 @@ export default class HistogramChart extends Component {
     return (
       <div>
         <Row gutter={[16, 24]}>
-          <Col className="gutter-row" xs={24} md={24} lg={12}>
+          <Col className="gutter-row NoResize" xs={24} md={24} lg={12}>
             <Histogram
               type={'LineChartSimple'}
               option={{

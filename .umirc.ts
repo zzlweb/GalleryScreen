@@ -53,6 +53,12 @@ export default defineConfig({
           component: '@/pages/echarts/HistogramChart/index',
         },
         {
+          name: '图表',
+          title: '饼状图',
+          path: '/charts/PieChart',
+          component: '@/pages/echarts/PieChart/index',
+        },
+        {
           name: '表格',
           title: '表格',
           path: '/table',
